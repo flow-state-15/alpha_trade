@@ -8,11 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
-        unique: true,
-      },
       email: {
         type: Sequelize.STRING(256),
         allowNull: false,
@@ -22,13 +17,14 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
       },
+      lastViewedSym: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       }

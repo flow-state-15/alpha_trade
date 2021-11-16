@@ -1,0 +1,135 @@
+testing db.sequelize:  <ref *1> Sequelize {
+  options: {
+    dialect: 'postgres',
+    dialectModule: null,
+    dialectModulePath: null,
+    host: 'localhost',
+    protocol: 'tcp',
+    define: {},
+    query: {},
+    sync: {},
+    timezone: '+00:00',
+    clientMinMessages: 'warning',
+    standardConformingStrings: true,
+    logging: [Function: log],
+    omitNull: false,
+    native: false,
+    replication: false,
+    ssl: undefined,
+    pool: {},
+    quoteIdentifiers: true,
+    hooks: {},
+    retry: { max: 5, match: [Array] },
+    transactionType: 'DEFERRED',
+    isolationLevel: null,
+    databaseVersion: 0,
+    typeValidation: false,
+    benchmark: false,
+    minifyAliases: false,
+    logQueryParameters: false,
+    username: 'auth_app',
+    password: 'password',
+    database: 'auth_db',
+    seederStorage: 'sequelize'
+  },
+  config: {
+    database: 'auth_db',
+    username: 'auth_app',
+    password: 'password',
+    host: 'localhost',
+    port: 5432,
+    pool: {},
+    protocol: 'tcp',
+    native: false,
+    ssl: undefined,
+    replication: false,
+    dialectModule: null,
+    dialectModulePath: null,
+    keepDefaultTimezone: undefined,
+    dialectOptions: undefined
+  },
+  dialect: <ref *2> PostgresDialect {
+    sequelize: [Circular *1],
+    connectionManager: ConnectionManager {
+      sequelize: [Circular *1],
+      config: [Object],
+      dialect: [Circular *2],
+      versionPromise: null,
+      dialectName: 'postgres',
+      pool: [Pool],
+      lib: [PG],
+      nameOidMap: {},
+      enumOids: [Object],
+      oidParserMap: Map(0) {}
+    },
+    QueryGenerator: PostgresQueryGenerator {
+      sequelize: [Circular *1],
+      options: [Object],
+      dialect: 'postgres',
+      _dialect: [Circular *2],
+      typeValidation: undefined
+    }
+  },
+  queryInterface: QueryInterface {
+    sequelize: [Circular *1],
+    QueryGenerator: PostgresQueryGenerator {
+      sequelize: [Circular *1],
+      options: [Object],
+      dialect: 'postgres',
+      _dialect: [PostgresDialect],
+      typeValidation: undefined
+    }
+  },
+  models: {},
+  modelManager: ModelManager { models: [], sequelize: [Circular *1] },
+  connectionManager: <ref *3> ConnectionManager {
+    sequelize: [Circular *1],
+    config: {
+      database: 'auth_db',
+      username: 'auth_app',
+      password: 'password',
+      host: 'localhost',
+      port: 5432,
+      pool: [Object],
+      protocol: 'tcp',
+      native: false,
+      ssl: undefined,
+      replication: false,
+      dialectModule: null,
+      dialectModulePath: null,
+      keepDefaultTimezone: undefined,
+      dialectOptions: undefined
+    },
+    dialect: <ref *2> PostgresDialect {
+      sequelize: [Circular *1],
+      connectionManager: [Circular *3],
+      QueryGenerator: [PostgresQueryGenerator]
+    },
+    versionPromise: null,
+    dialectName: 'postgres',
+    pool: Pool {
+      _factory: [Object],
+      _count: 0,
+      _draining: false,
+      _pendingAcquires: [],
+      _inUseObjects: [],
+      _availableObjects: [],
+      _removeIdleTimer: null,
+      _removeIdleScheduled: false
+    },
+    lib: PG {
+      defaults: [Object],
+      Client: [Function],
+      Query: [class Query extends EventEmitter],
+      Pool: [class BoundPool extends Pool],
+      _pools: [],
+      Connection: [class Connection extends EventEmitter],
+      types: [Object],
+      DatabaseError: [class DatabaseError extends Error]
+    },
+    nameOidMap: {},
+    enumOids: { oids: [], arrayOids: [] },
+    oidParserMap: Map(0) {}
+  },
+  importCache: {}
+}

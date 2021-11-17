@@ -6,6 +6,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import LoginFormModal from "./components/LoginFormModal";
+import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import './App.css';
 import "./reset.css";
@@ -22,22 +23,26 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <HomePage />
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/login">
-            <LoginFormModal />
+          <Route exact path="/login">
+            <LoginPage />
+            {/* <LoginFormModal /> */}
           </Route>
-          <ProtectedRoute path="/@profile/:userId">
+          <ProtectedRoute exact path="/@profile/:userId">
+            <div>
+              <h1>TESTING PATH "/@profile/:userId" </h1>
+            </div>
           </ProtectedRoute>
-          <ProtectedRoute path="/@profile/:user_id/portfolios/:portfolio_id">
+          <ProtectedRoute exact path="/@profile/:user_id/portfolios/:portfolio_id">
           </ProtectedRoute>
-          <ProtectedRoute path="/@profile/:user_id/watchlists/:watchlist_id">
+          <ProtectedRoute exact path="/@profile/:user_id/watchlists/:watchlist_id">
           </ProtectedRoute>
-          <ProtectedRoute path="/@profile/:user_id/transactions">
+          <ProtectedRoute exact path="/@profile/:user_id/transactions">
           </ProtectedRoute>
         </Switch>
       )}

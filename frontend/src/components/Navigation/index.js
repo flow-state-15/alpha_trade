@@ -13,17 +13,17 @@ function Navigation({ isLoaded }) {
   const user = useSelector((state) => state.session.user);
 
   const dispatchDemoLogin = () => {
-    dispatch(login("DougD@demo.dome", "DemoDome"));
-    history.push("/@profile/1");
+    dispatch(login({credential: "dougdemo@demodome.io", password: "password"})).then(() => { return history.push("/@profile/1")});
     setDemo(true);
   };
 
   function loginClick() {
     history.push("/login");
+    return (<Redirect to="/login" />)
   }
 
   function signupClick() {
-    history.push("/sign-up");
+    history.push("/signup");
   }
 
   const onLogout = async (e) => {
@@ -68,7 +68,7 @@ function Navigation({ isLoaded }) {
           <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
             Demo User
           </button>
-          {user ? <Redirect to="/channels/@me" /> : null}
+          {/* {user ? <Redirect to={`/@profile/${user.id}`} /> : null} */}
           {user ? (
             <button className="nav-bar-buttons" onClick={onLogout}>
               Logout

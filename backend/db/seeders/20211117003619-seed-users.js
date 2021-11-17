@@ -7,14 +7,6 @@ const data = [
     email: 'dougdemo@demodome.io',
     hashedPassword: bcrypt.hashSync('password'),
   },
-  {
-    email: faker.internet.email(),
-    hashedPassword: bcrypt.hashSync(faker.internet.password()),
-  },
-  {
-    email: faker.internet.email(),
-    hashedPassword: bcrypt.hashSync(faker.internet.password()),
-  },
 ]
 
 module.exports = {
@@ -23,6 +15,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-   return queryInterface.bulkDelete('Users', null, {});
+   return queryInterface.bulkDelete('Users', data, {});
   }
 };

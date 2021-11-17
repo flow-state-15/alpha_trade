@@ -8,6 +8,7 @@ import HomePage from "./components/HomePage";
 import LoginFormModal from "./components/LoginFormModal";
 import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import UserPage from "./components/UserPage"
 import './App.css';
 import "./reset.css";
 
@@ -34,9 +35,7 @@ function App() {
             {/* <LoginFormModal /> */}
           </Route>
           <ProtectedRoute exact path="/@profile/:userId">
-            <div>
-              <h1>TESTING PATH "/@profile/:userId" </h1>
-            </div>
+            <UserPage />
           </ProtectedRoute>
           <ProtectedRoute exact path="/@profile/:user_id/portfolios/:portfolio_id">
           </ProtectedRoute>

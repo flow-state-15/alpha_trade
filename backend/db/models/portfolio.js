@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     userId: {
-      allowNull: false,
       references: { model: "Users" },
       type: DataTypes.INTEGER
     },
@@ -25,16 +24,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL
     },
     createdAt: {
-      allowNull: false,
       type: DataTypes.DATE
     },
     updatedAt: {
-      allowNull: false,
       type: DataTypes.DATE
     }
   }, {});
   Portfolio.associate = function(models) {
     // associations can be defined here
+    Portfolio.belongsTo(models.User, { foreignKey: 'userId' });
+    Portfolio.hasOne(models.PortfolioEntry, { foreignKey: 'portfolioId', onDelete: "CASCADE", hooks: true });
+    Portfolio.hasMany(models.Transaction, { foreignKey: 'portfolioId', onDelete: "CASCADE", hooks: true });
   };
   return Portfolio;
 };

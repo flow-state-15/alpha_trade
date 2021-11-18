@@ -12,22 +12,6 @@ const data = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
-  // {
-  // },
 ]
 
 module.exports = {

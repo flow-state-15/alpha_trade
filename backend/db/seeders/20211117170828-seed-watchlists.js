@@ -2,7 +2,13 @@
 
 const data = [
   {
-    name: 'My first watchlist',
+    name: 'S&P100',
+    userId: 1,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    name: 'QQQ',
     userId: 1,
     createdAt: new Date(),
     updatedAt: new Date(),

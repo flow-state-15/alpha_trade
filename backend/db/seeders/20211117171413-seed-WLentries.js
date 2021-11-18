@@ -1,27 +1,9 @@
 'use strict';
+const sp100 = require('./sp100.json')
+const qqq = require('./qqq.json')
 
-const data = [
-  {
-    watchlistId: 1,
-    symbol: 'AAPL',
-    symbolName: 'Apple',
-    currentPrice: 0.00,
-    sessionStartPrice: 0.00,
-    prevSessionClose: 0.00,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    watchlistId: 1,
-    symbol: 'AAPL',
-    symbolName: 'Apple',
-    currentPrice: 0.00,
-    sessionStartPrice: 0.00,
-    prevSessionClose: 0.00,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-]
+
+const data = [ ...sp100,...qqq ]
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

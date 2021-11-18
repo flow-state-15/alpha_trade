@@ -24,30 +24,12 @@ module.exports = {
       symbolName: {
         type: Sequelize.STRING
       },
-      currentPrice: {
-        type: Sequelize.DECIMAL
-      },
-      expires: {
-        type: Sequelize.DATE
-      },
-      impVol: {
-        type: Sequelize.DECIMAL
-      },
-      delta: {
-        type: Sequelize.DECIMAL
-      },
-      theta: {
-        type: Sequelize.DECIMAL
-      },
-      gamma: {
-        type: Sequelize.DECIMAL
-      },
-      rho: {
-        type: Sequelize.DECIMAL
-      },
       createdAt: {
         type: Sequelize.DATE
-      }
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

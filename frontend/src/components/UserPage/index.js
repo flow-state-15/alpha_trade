@@ -1,29 +1,41 @@
 import "./UserPage.css";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ReactDOM from "react-dom";
-import { createChart } from 'lightweight-charts';
-import TradingViewWidget, { Themes } from 'react-tradingview-widget';
-import TechnicalAnalysis from 'react-tradingview-technical-analysis';
+import { createChart } from "lightweight-charts";
+import TradeCard from "../TradeCard";
+import { loadPortfolios } from "../../store/portfolios";
+import { loadWatchlists } from "../../store/watchlists";
+import TradingViewWidget, { Themes } from "react-tradingview-widget";
 
 export default function UserPage() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+  const portfolios = useSelector((state) => state.portfolios);
+  const watchlists = useSelector((state) => state.watchlists);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(loadPortfolios(user.id));
+      console.log("dispatching load ports");
+      dispatch(loadWatchlists(user.id));
+      console.log("dispatching load watch");
+    }
+  }, []);
 
   return (
     <div className="userpage-container">
-      <h1>TESTING</h1>
-      <div className="tradingview-chart-container">
-        <TradingViewWidget
+      <div className="wrapper-userpage-chart-trade">
+        <div className="tradingview-chart-container">
+          <TradingViewWidget
+            className="tv-widget"
             symbol="NASDAQ:GOOG"
             theme={Themes.DARK}
-            // styles={{width:"100%"}}
+            styles={{ width: "200rem !important" }}
             hide-side-toolbar={false}
-        />
-      </div >
-      <div className="tradingview-chart-container">
-        {/* <TechnicalAnalysis
-            symbol={'AAPL'}
-            colorTheme={TechnicalAnalysis.THEMES.DARK}
-        /> */}
+          />
+        </div>
+        <TradeCard portfolios={portfolios} watchlists={watchlists} />
       </div>
     </div>
   );

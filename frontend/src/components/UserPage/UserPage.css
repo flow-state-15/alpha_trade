@@ -1,8 +1,35 @@
 
-.tradingview-chart-container {
-    width: 100%;
-}
 
 .userpage-container {
     overflow-y: scroll;
+}
+
+.wrapper-userpage-chart-trade {
+    display: flex;
+    gap: 1rem;
+    height: fit-content;
+    padding-top: 3rem;
+    justify-content: space-between;
+}
+
+.tv-widget {
+}
+
+article {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: max-content !important;
+    margin-left: 15rem !important;
+}
+
+#tradingview_2da16-wrapper > div {
+    width: 700px;
+}
+
+#tradingview_2da16-wrapper {
+    width: 700px !important;
+}
+
+.tradingview-chart-container {
+    /* padding-left: 50rem; */
 }

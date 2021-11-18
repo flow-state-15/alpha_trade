@@ -12,8 +12,9 @@
 .nav-button-wrap {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 3rem;
   padding-right: 2rem;
+  align-items: center;
 }
 
 .nav-bar-buttons {
@@ -47,3 +48,5 @@
 .logo-text {
     text-decoration: none;
 }
+
+

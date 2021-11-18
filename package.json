@@ -22,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/flow-state-15/robinhood_clone/issues"
   },
-  "homepage": "https://github.com/flow-state-15/robinhood_clone#readme"
+  "homepage": "https://github.com/flow-state-15/robinhood_clone#readme",
+  "dependencies": {
+    "lightweight-charts": "^3.7.0",
+    "react-helmet": "^6.1.0",
+    "react-tradingview-embed": "^2.2.6",
+    "react-tradingview-technical-analysis": "^1.0.2",
+    "react-tradingview-widget": "^1.3.2"
+  }
 }

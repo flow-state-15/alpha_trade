@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const WatchlistEntries = sequelize.define('WatchlistEntries', {
+  const WatchlistEntry = sequelize.define('WatchlistEntry', {
     watchlistId: {
       allowNull: false,
       references: { model: "Watchlists" },
@@ -25,8 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL
     },
   }, {});
-  WatchlistEntries.associate = function(models) {
+  WatchlistEntry.associate = function(models) {
     // associations can be defined here
+    WatchlistEntry.belongsTo(models.Watchlist, { foreignKey: 'watchlistId' })
   };
-  return WatchlistEntries;
+  return WatchlistEntry;
 };

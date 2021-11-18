@@ -12,7 +12,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       userId: {
-        allowNull: false,
         references: { model: "Users" },
         type: Sequelize.INTEGER
       },
@@ -32,11 +31,9 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE
       }
     });

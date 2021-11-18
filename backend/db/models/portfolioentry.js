@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const PortfolioEntries = sequelize.define('PortfolioEntries', {
+  const PortfolioEntry = sequelize.define('PortfolioEntry', {
     portfolioId: {
       allowNull: false,
       references: { model: "Portfolios" },
@@ -39,8 +39,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL
     },
   }, {});
-  PortfolioEntries.associate = function(models) {
+  PortfolioEntry.associate = function(models) {
     // associations can be defined here
+    PortfolioEntry.belongsTo(models.Portfolio, { foreignKey: 'portfolioId', onDelete: "CASCADE", hooks: true });
   };
-  return PortfolioEntries;
+  return PortfolioEntry;
 };

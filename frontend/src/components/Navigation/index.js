@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
 import { login, logout } from "../../store/session";
+import { loadPortfolios } from "../../store/portfolios";
+import { loadWatchlists } from "../../store/watchlists";
+import DropDownMenu from "../DropDownMenu";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const history = useHistory();
   const [demo, setDemo] = useState(false);
+  const [drop1, setDrop1] = useState(false);
+  const [drop2, setDrop2] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
@@ -43,6 +48,24 @@ function Navigation({ isLoaded }) {
   //   );
   // }
 
+  console.log("\n\n", user, "\n\n")
+
+  useEffect(() => {
+    if(user){
+      dispatch(loadPortfolios(user.id))
+      console.log("dispatching load ports")
+      dispatch(loadWatchlists(user.id))
+      console.log("dispatching load watch")
+    }
+  }, []);
+
+  const watchlists = Object.values(useSelector((state) => state.watchlists))
+  const portfolios = Object.values(useSelector((state) => state.portfolios))
+
+  const watchlistDD = watchlists.map((watchlist) => <Link to={`/@profile/${user.id}/watchlists/${watchlist.id}`}>{watchlist.name}</Link>)
+
+  const portfolioDD = portfolios.map((portfolio) => <Link to={`/@profile/${user.id}/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)
+
   return (
     <>
       <nav className="navbar">
@@ -65,17 +88,38 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </div>
         <div className="nav-button-wrap">
-          <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
-            Demo User
-          </button>
           {/* {user ? <Redirect to={`/@profile/${user.id}`} /> : null} */}
           {user ? (
-            <button className="nav-bar-buttons" onClick={onLogout}>
-              Logout
-            </button>
+            <>
+              {/* <div className="dd-active"
+                onClick={() => {setDrop1(!drop1); console.log(drop1, watchlistDD)}}
+                >
+                Watchlists
+                <div className="dd-hidden" >
+                  { watchlistDD }
+                </div>
+              </div>
+              <div
+                className="dd-active"
+                onClick={() => {setDrop2(!drop2)}}
+                >
+                Portfolios
+                <div className="dd-hidden">
+                  { portfolioDD }
+                </div>
+              </div> */}
+              <DropDownMenu array={watchlists} user={user} name='Watchlists' />
+              <DropDownMenu array={portfolios} user={user} name='Portfolios' />
+              <button className="nav-bar-buttons" onClick={onLogout}>
+                Logout
+              </button>
+            </>
           ) : (
             <div className="nav-button-wrap">
               <div>
+                <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
+                  Demo User
+                </button>
                 <button
                   className="nav-bar-buttons"
                   onClick={() => loginClick()}

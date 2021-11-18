@@ -49,21 +49,4 @@
     text-decoration: none;
 }
 
-.dd-hidden {
-  display: none;
-  position: absolute;
-  width: 20rem;
-  height: 20rem;
-  top: 100%;
-  right: 0;
-}
 
-.dd-active:hover .dd-hidden {
-  display: block !important;
-  background-color: blue;
-}
-
-.dd-active {
-  cursor: pointer;
-  position: relative;
-}

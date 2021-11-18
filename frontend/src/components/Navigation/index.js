@@ -91,12 +91,11 @@ function Navigation({ isLoaded }) {
           {/* {user ? <Redirect to={`/@profile/${user.id}`} /> : null} */}
           {user ? (
             <>
-              <div className="dd-active"
+              {/* <div className="dd-active"
                 onClick={() => {setDrop1(!drop1); console.log(drop1, watchlistDD)}}
                 >
                 Watchlists
                 <div className="dd-hidden" >
-                  HI
                   { watchlistDD }
                 </div>
               </div>
@@ -106,10 +105,11 @@ function Navigation({ isLoaded }) {
                 >
                 Portfolios
                 <div className="dd-hidden">
-                  HI
                   { portfolioDD }
                 </div>
-              </div>
+              </div> */}
+              <DropDownMenu array={watchlists} user={user} name='Watchlists' />
+              <DropDownMenu array={portfolios} user={user} name='Portfolios' />
               <button className="nav-bar-buttons" onClick={onLogout}>
                 Logout
               </button>

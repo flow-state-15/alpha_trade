@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactDOM from "react-dom";
 import { createChart } from "lightweight-charts";
 import TradeCard from "../TradeCard";
+import DataApi from "../DataApi";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
 import TradingViewWidget, { Themes } from "react-tradingview-widget";
@@ -36,6 +37,7 @@ export default function UserPage() {
           />
         </div>
         <TradeCard portfolios={portfolios} watchlists={watchlists} />
+        <DataApi />
       </div>
     </div>
   );

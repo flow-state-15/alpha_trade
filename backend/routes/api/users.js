@@ -26,6 +26,20 @@ const validateSignup = [
 ];
 
 //ROUTE HANDLING
+
+//GET USER
+router.get(
+  '/:userId',
+  asyncHandler(async (req, res) => {
+    const { userId } = req.body;
+    const user = await User.findByPk(userId);
+
+    return res.json({
+      user,
+    });
+  }),
+)
+
 //Sign up
 router.post(
   '/',
@@ -40,6 +54,22 @@ router.post(
       user,
     });
   }),
+);
+
+//UPDATE user
+router.put(
+  "/:userId",
+  asyncHandler(async function (req, res) {
+    const { userId } = req.params;
+    const { user } = req.body;
+
+    const foundUser = await User.findByPk(userId);
+    await foundUser.update(user)
+    // console.log("\n\n foundUser: ", foundUser, "\n\n");
+    return res.json({
+      user: foundUser
+    });
+  })
 );
 
 module.exports = router;

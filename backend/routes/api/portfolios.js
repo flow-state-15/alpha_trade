@@ -35,7 +35,7 @@ router.get(
           { where: { userId: userId}}
       );
 
-      console.log("\n\n", portfolios, "\n\n")
+      // console.log("\n\n", portfolios, "\n\n")
 
       return res.json({
         portfolios

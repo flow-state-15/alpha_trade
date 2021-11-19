@@ -17,4 +17,3 @@ with open('data-qqq.csv', newline='') as csvfile:
         outfile.write(json_object)
 
 
-{'num': '1', 'company': 'Microsoft Corporation', 'symbol': 'MSFT', 'weight': '6.406082', 'price': '341.53', 'chng': '2.41', '%chng': '(0.71%)'}

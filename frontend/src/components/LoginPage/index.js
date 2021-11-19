@@ -8,7 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password })).catch(
@@ -17,6 +17,8 @@ function LoginPage() {
         if (data && data.errors) setErrors(data.errors);
       }
     );
+    // const userId = useSelector((state))
+    // await dispatch(getUser())
   };
 
   return (

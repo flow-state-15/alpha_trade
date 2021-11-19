@@ -25,7 +25,19 @@ export const loadWatchlists = (userId) => async (dispatch) => {
 
   if (response.ok) {
       const { watchlists } = await response.json();
-      console.log("\n\nIN wl LOAD THUNK, wl: ", watchlists, "\n\n")
+
+      const normalize = {}
+      for(let i = 0; i < watchlists.length; ++i){
+        const included = {}
+        for(let j = 0; j < watchlists[i].WatchlistEntries.length; ++j){
+          included[watchlists[i].WatchlistEntries[j].id] = watchlists[i].WatchlistEntries[j];
+        }
+        normalize[watchlists[i].id] = watchlists[i];
+        normalize[watchlists[i].id]["WatchlistEntries"] = included;
+      }
+
+      // console.log("\n\nIN wl LOAD THUNK, wl: ", normalize, "\n\n")
+
     dispatch(load(watchlists));
     return watchlists
   }

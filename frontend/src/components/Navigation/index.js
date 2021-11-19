@@ -48,23 +48,23 @@ function Navigation({ isLoaded }) {
   //   );
   // }
 
-  console.log("\n\n", user, "\n\n")
+  // console.log("\n\n", user, "\n\n")
 
   useEffect(() => {
     if(user){
       dispatch(loadPortfolios(user.id))
-      console.log("dispatching load ports")
+      // console.log("dispatching load ports")
       dispatch(loadWatchlists(user.id))
-      console.log("dispatching load watch")
+      // console.log("dispatching load watch")
     }
   }, []);
 
   const watchlists = Object.values(useSelector((state) => state.watchlists))
   const portfolios = Object.values(useSelector((state) => state.portfolios))
 
-  const watchlistDD = watchlists.map((watchlist) => <Link to={`/@profile/${user.id}/watchlists/${watchlist.id}`}>{watchlist.name}</Link>)
+  // const watchlistDD = watchlists.map((watchlist) => <Link to={`/@profile/${user.id}/watchlists/${watchlist.id}`}>{watchlist.name}</Link>)
 
-  const portfolioDD = portfolios.map((portfolio) => <Link to={`/@profile/${user.id}/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)
+  // const portfolioDD = portfolios.map((portfolio) => <Link to={`/@profile/${user.id}/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)
 
   return (
     <>

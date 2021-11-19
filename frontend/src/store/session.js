@@ -18,9 +18,31 @@ const removeUser = () => {
 };
 
 //action creators
+
+export const setLastViewed = (user) => async (dispatch) => {
+
+  const response = await csrfFetch(`/api/users/${user.id}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      user
+    }),
+  });
+  const data = await response.json();
+  // console.log("\n\n data: ", data, "\n\n");
+  dispatch(setUser(data.user));
+  return response;
+};
+
+export const getUser = (userId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userId}`);
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+}
+
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
-  
+
   const response = await csrfFetch("/api/session/", {
     method: "POST",
     body: JSON.stringify({
@@ -29,6 +51,7 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
+  console.log("\n\n user: ", user, "\n\n");
   dispatch(setUser(data.user));
   return response;
 };
@@ -72,6 +95,7 @@ const sessionReducer = (state = initialState, action) => {
     case SET_USER:
       newState = Object.assign({}, state);
       newState.user = action.payload;
+
       return newState;
     case REMOVE_USER:
       newState = Object.assign({}, state);

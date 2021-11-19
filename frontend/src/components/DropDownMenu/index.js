@@ -27,7 +27,7 @@ export default function DropDownMenu({ array, user, name }) {
         className="dd-active"
         onClick={() => {
           setToggle(!toggle);
-          console.log(toggle, ddContent);
+          // console.log(toggle, ddContent);
         }}
       >
         <div className='dd-name-wrapper'>

@@ -1,4 +1,4 @@
-// import { csrfFetch } from "./csrf";
+import { csrfFetch } from "./csrf";
 
 const LOAD = "watchlists/LOAD";
 const ADD = "watchlists/ADD";
@@ -44,7 +44,7 @@ export const loadWatchlists = (userId) => async (dispatch) => {
 };
 
 export const addWatchlist = (formData) => async (dispatch) => {
-  const response = await fetch("/api/watchlists/", {
+  const response = await csrfFetch("/api/watchlists/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -54,13 +54,14 @@ export const addWatchlist = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const watchlist = await response.json();
+    console.log("in addWL thunk, response:: ", watchlist)
     dispatch(add(watchlist));
     return watchlist;
   }
 };
 
 export const updateWatchlist = (formData) => async (dispatch) => {
-  const response = await fetch(`/api/watchlists/${formData.id}`, {
+  const response = await csrfFetch(`/api/watchlists/${formData.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export const updateWatchlist = (formData) => async (dispatch) => {
 };
 
 export const removeWatchlist = (watchlistId) => async (dispatch) => {
-  const response = await fetch(`/api/watchlists/${watchlistId}`, {
+  const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -85,6 +86,20 @@ export const removeWatchlist = (watchlistId) => async (dispatch) => {
   if (response.ok) {
     const watchlist = await response.json();
     dispatch(remove(watchlistId));
+  }
+};
+
+export const removeWatchlistSymbol = (watchlistId, entryId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/watchlists/deleteSymbol/${watchlistId}/${entryId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.ok) {
+    const watchlist = await response.json();
+    dispatch(add(watchlist));
   }
 };
 

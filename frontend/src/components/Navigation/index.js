@@ -51,12 +51,12 @@ function Navigation({ isLoaded }) {
   // console.log("\n\n", user, "\n\n")
 
   useEffect(() => {
-    if(user){
-      dispatch(loadPortfolios(user.id))
+    // if(user){
+      dispatch(loadPortfolios(user?.id))
       // console.log("dispatching load ports")
-      dispatch(loadWatchlists(user.id))
+      dispatch(loadWatchlists(user?.id))
       // console.log("dispatching load watch")
-    }
+    // }
   }, []);
 
   const watchlists = Object.values(useSelector((state) => state.watchlists))

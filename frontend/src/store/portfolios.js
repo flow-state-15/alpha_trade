@@ -1,4 +1,4 @@
-// import { csrfFetch } from "./csrf";
+import { csrfFetch } from "./csrf";
 
 const LOAD = "portfolios/LOAD";
 const ADD = "portfolios/ADD";
@@ -20,18 +20,31 @@ const remove = (portfolioId) => ({
 });
 
 export const loadPortfolios = (userId) => async (dispatch) => {
-  const response = await fetch(`/api/portfolios/${userId}`);
-
+  const response = await csrfFetch(`/api/portfolios/${userId}`);
 
   if (response.ok) {
-      const { portfolios } = await response.json();
-      console.log("\n\nIN pf LOAD THUNK, pf: ", portfolios, "\n\n")
-    dispatch(load(portfolios));
-  }
+    const { portfolios } = await response.json();
+
+    const normalize = {}
+    for(let i = 0; i < portfolios.length; ++i){
+      const included = {}
+      for(let j = 0; j < portfolios[i].PortfolioEntries.length; ++j){
+        included[portfolios[i].PortfolioEntries[j].id] = portfolios[i].PortfolioEntries[j];
+      }
+      normalize[portfolios[i].id] = portfolios[i];
+      normalize[portfolios[i].id]["PortfolioEntries"] = included;
+    }
+
+    console.log("\n\nIN pt LOAD THUNK, pt: ", normalize, "\n\n")
+
+  dispatch(load(portfolios));
+  return portfolios
+}
 };
 
 export const addPortfolio = (formData) => async (dispatch) => {
-  const response = await fetch("/api/portfolios/", {
+  console.log("in addPortfolio", formData)
+  const response = await csrfFetch("/api/portfolios/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +60,7 @@ export const addPortfolio = (formData) => async (dispatch) => {
 };
 
 export const updatePortfolio = (formData) => async (dispatch) => {
-  const response = await fetch(`/api/portfolios/${formData.id}`, {
+  const response = await csrfFetch(`/api/portfolios/${formData.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -61,8 +74,24 @@ export const updatePortfolio = (formData) => async (dispatch) => {
   }
 };
 
+export const portTransaction = (formData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/portfolios/transact/${formData.portfolioId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  if (response.ok) {
+    const portfolio = await response.json();
+    console.log("return from backend, port",portfolio);
+    dispatch(add(portfolio));
+  }
+};
+
 export const removePortfolio = (portfolioId) => async (dispatch) => {
-  const response = await fetch(`/api/portfolios/${portfolioId}`, {
+  const response = await csrfFetch(`/api/portfolios/${portfolioId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

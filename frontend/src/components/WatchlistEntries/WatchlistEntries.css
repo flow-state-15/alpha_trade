@@ -17,3 +17,14 @@
 .sb-content-item-symbol {
     cursor: pointer;
 }
+
+.sidebar-name-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.edit-link {
+    cursor: pointer;
+    text-decoration: underline;
+}

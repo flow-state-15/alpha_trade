@@ -38,8 +38,8 @@ router.get(
 router.post(
   "/",
   asyncHandler(async(req, res) => {
-    const post = await Post.create(req.body);
-    return res.json(post);
+    const wl = await Watchlist.create(req.body);
+    return res.json(wl);
   })
 );
 
@@ -50,9 +50,13 @@ router.put(
   "/:id",
   asyncHandler(async function (req, res) {
     const id = req.params.id;
-    const post = await Post.findByPk(id);
-    await post.update(req.body)
-    return res.json(post);
+    const wl = await Watchlist.findByPk(id);
+    await wl.update(req.body)
+    const findwl = await Watchlist.findOne({
+      where: { id: id },
+      include: [{ model: WatchlistEntry }]
+    });
+    return res.json(findwl);
   })
 );
 
@@ -62,12 +66,25 @@ router.delete(
   "/:id",
   asyncHandler(async function (req, res) {
     const id = req.params.id;
-    const post = await Post.findByPk(id);
-    if (!post) throw new Error("Cannot find post");
-    await post.destroy(req.body);
-    return res.json(post);
+    const wl = await Watchlist.findByPk(id);
+    if (!wl) throw new Error("Cannot find wl");
+    await Watchlist.destroy({where: {id: id}});
+    return res.json(wl);
   })
 );
 
+//DELETE symbol from watchlist
+router.delete(
+  "/deleteSymbol/:id/:entryId",
+  asyncHandler(async function (req, res) {
+    const { id, entryId } = req.params;
+    await WatchlistEntry.destroy({where: {id: entryId}});
+    const findwl = await Watchlist.findOne({
+      where: { id: id },
+      include: [{ model: WatchlistEntry }]
+    });
+    return res.json(findwl);
+  })
+);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import "./TradeCard.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { portTransaction } from '../../store/portfolios'
+import { portTransaction, updatePortfolio } from '../../store/portfolios'
 
 export default function TradeCard({ portfolios, watchlists, user }) {
   const dispatch = useDispatch();
@@ -13,7 +13,8 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   const [ticker, setTicker] = useState(user.lastViewedSym);
   const [shares, setShares] = useState("")
   const [price, setPrice] = useState("")
-  let totalPrice = 0.00
+  const [transType, setTransType] = useState("buy")
+  const [error, setError] = useState("")
 
   useEffect(() => {
     setTicker(user.lastViewedSym)
@@ -33,33 +34,46 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   });
 
   const findPrice = (sharePrice, amount) => {
-    totalPrice = sharePrice * amount;
-    return totalPrice
+    return sharePrice * amount;
   };
 
-  const handleTransaction = async (e) => {
+  const handleTransaction = async (e, type) => {
     e.preventDefault();
-    console.log("portfolio >>>>",portfolio)
-    const action = {
-      portfolioId: portfolio.id,
-      amount: shares,
-      symbol: ticker,
-    };
-    console.log("in handleTransaction, port >> action", portfolio, action)
-    await dispatch(portTransaction(action))
-    setShares("");
-    setPrice("")
+    // console.log("portfolio >>>>",portfolio)
+    if(type === "buy" && portfolio.currentFunds < findPrice(price, shares)){
+      setError("not enough buying power");
+    } else if(type === "buy" && portfolio.currentFunds > findPrice(price, shares)) {
+      const action = {
+        portfolioId: portfolio.id,
+        amount: shares,
+        symbol: ticker,
+      };
+      console.log("in handleTransaction, port >> action", portfolio, action)
+      await dispatch(portTransaction(action))
+      const portUpdate = {
+        ...portfolio, currentFunds: portfolio.currentFunds - findPrice(price, shares)
+      }
+      await dispatch(updatePortfolio(portUpdate))
+      setShares("");
+      setPrice("")
+      setError("")
+    } else {
+      setError("short selling is currently unavailable")
+    }
   };
 
   if (user) {
     return (
       <div className="wrapper-trade-card">
         <div className="wrapper-buy-sell-trade-card">
-          <div>Buy</div>
-          <div>Sell</div>
+          <div onClick={() => setTransType("buy")}>Buy</div>
+          <div onClick={() => setTransType("sell")}>Sell</div>
         </div>
+        <ul>
+          {(error) ? <li style={{color: "red", listStyleType: "none"}}>{"Error:  "+error}</li> : null}
+        </ul>
         <div className="wrapper-trade-components">
-          <form className="wrapper-trade-form" onSubmit={handleTransaction}>
+          <form className="wrapper-trade-form" onSubmit={(e) => handleTransaction(e, transType)}>
             <label>Select Portfolio</label>
             <select
               value={selectedOption}
@@ -71,13 +85,13 @@ export default function TradeCard({ portfolios, watchlists, user }) {
               {selectOptions}
             </select>
             <label>ticker:</label>
-            <input value={ticker} onChange={(e) => setTicker(e.target.value)}/>
+            <input required value={ticker} onChange={(e) => setTicker(e.target.value)}/>
             <label>Shares</label>
-            <input value={shares} onChange={(e) => setShares(e.target.value)}/>
+            <input required value={shares} onChange={(e) => {setShares(e.target.value); setError("")}}/>
             <label>Price</label>
-            <input value={price} onChange={(e) => setPrice(e.target.value)}/>
+            <input required value={price} onChange={(e) => {setPrice(e.target.value); setError("")}}/>
             <div>Est. price: {formatter.format(findPrice(shares, price))}</div>
-            <button type="submit">Submit Order</button>
+            <button type="submit" disabled={selectedOption === "select portfolio"}>Submit Order</button>
             <h3>
               {(selectedOption !== "select portfolio") ?
               formatter.format(portfolio?.currentFunds)+" buying power available" : <p>please select a portfolio for this transaction</p>}

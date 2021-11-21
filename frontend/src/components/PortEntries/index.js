@@ -25,8 +25,9 @@ export default function PortEntries({ portId, user }) {
         <div className="sidebar-name-wrapper">
           {/* <div>{port.name}</div>
           <div className="edit-link">Edit</div> */}
-          <PortCrud portId={port.id} userId={user.id} />
           <h2>{port.name}</h2>
+          <h2>{"Portfolio value: " + port.currentFunds}</h2>
+          <PortCrud portId={port.id} userId={user.id} />
         </div>
         <div>
           {port.PortfolioEntries ?

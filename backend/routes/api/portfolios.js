@@ -58,13 +58,13 @@ router.put(
   "/:id",
   asyncHandler(async function (req, res) {
     const id = req.params.id;
-    const entry = await Portfolio.findByPk(id);
-    await entry.update(req.body)
-    const findPort = await Portfolio.findOne({
+    const port = await Portfolio.findByPk(id);
+    await port.update(req.body)
+    const updatedport = await Portfolio.findOne({
       where: { id: id },
       include: [{ model: PortfolioEntry }]
     });
-    return res.json(findPort);
+    return res.json(updatedport);
   })
 );
 

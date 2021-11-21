@@ -10,7 +10,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     "select portfolio"
   );
   const portfolio = useSelector((state) => state.portfolios[selectedOption]);
-  const [ticker, setTicker] = useState(user.lastViewedSym);
+  const [ticker, setTicker] = useState(user.lastViewedSym.toUpperCase());
   const [shares, setShares] = useState("")
   const [price, setPrice] = useState("")
   const [transType, setTransType] = useState("buy")
@@ -46,7 +46,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       const action = {
         portfolioId: portfolio.id,
         amount: shares,
-        symbol: ticker,
+        symbol: ticker.toUpperCase(),
       };
       console.log("in handleTransaction, port >> action", portfolio, action)
       await dispatch(portTransaction(action))

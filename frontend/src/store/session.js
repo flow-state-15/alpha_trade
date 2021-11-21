@@ -29,7 +29,7 @@ export const setLastViewed = (user) => async (dispatch) => {
   });
   const data = await response.json();
   // console.log("\n\n data: ", data, "\n\n");
-  dispatch(setUser(data.user));
+  await dispatch(setUser(data.user));
   return response;
 };
 

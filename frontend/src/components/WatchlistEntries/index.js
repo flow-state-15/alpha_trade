@@ -9,17 +9,20 @@ import CrudModal from "../CrudModal"
 export default function WatchlistEntries({ watchlistId, user }) {
   const dispatch = useDispatch();
   const watchlist = useSelector((state) => state?.watchlists[watchlistId]);
-  const [content, setContent] = useState(null);
+  const [LV, setLV] = useState("");
 
-  const handleClick = async (e) => {
-    const update = {
-      ...user,
-      lastViewedSym: e.target.name,
-    };
-    await dispatch(setLastViewed(update));
-    console.log("in handle click, target: ", e.target)
-    console.log("in handle click, value: ", e.target.value)
-  };
+  useEffect(() => {
+    (async(e) => {
+      // console.log("in handle click, LV: ", LV)
+      const update = {
+        ...user,
+        lastViewedSym: LV.toUpperCase(),
+      };
+      await dispatch(setLastViewed(update));
+      // console.log("updated user : ", user)
+    })();
+  }, [LV])
+
 
   const handleRemove = async (e, entryId) => {
     await dispatch(removeWatchlistSymbol(watchlistId, entryId));
@@ -47,7 +50,7 @@ export default function WatchlistEntries({ watchlistId, user }) {
                 className="sb-content-item-symbol"
                 value={entry.symbol}
                 id={entry.id}
-                onClick={handleClick}
+                onClick={e => setLV(e.target.value)}
                 >{entry.symbol}</button>
                 <h3>{entry.symbolName}</h3>
                 <button onClick={(e) => handleRemove(e, entry.id)}>remove symbol</button>

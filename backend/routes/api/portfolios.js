@@ -5,6 +5,7 @@ const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { Portfolio, PortfolioEntry } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const si = require("stock-info");
 
 const router = express.Router();
 
@@ -74,13 +75,28 @@ router.post(
   asyncHandler(async (req, res) => {
     // console.log("\n\n",req.body, "\n\n")
     const portId = req.params.portId
-    const entry = await PortfolioEntry.create(req.body);
-    console.log("\n\n",entry, "\n\n")
-    const port = await Portfolio.findOne({
-      where: { id: portId },
-      include: [{ model: PortfolioEntry }]
+
+    const found = await PortfolioEntry.findOne({
+      where: { portfolioId: req.body.portfolioId, symbol: req.body.symbol, },
+      // raw: true,
     })
-    return res.json(port);
+    if(!found) {
+      const entry = await PortfolioEntry.create(req.body);
+      const port = await Portfolio.findOne({
+        where: { id: portId },
+        include: [{ model: PortfolioEntry }]
+      })
+      return res.json(port);
+    } else {
+      const newAmount = parseInt(found.amount) + parseInt(req.body.amount)
+      await found.update({ portfolioId: req.body.portfolioId, amount: newAmount, symbol: req.body.symbol });
+      // console.log("\n\n", found, "\n\n")
+      const port = await Portfolio.findOne({
+        where: { id: portId },
+        include: [{ model: PortfolioEntry }]
+      })
+      return res.json(port);
+    }
   })
 );
 
@@ -95,5 +111,29 @@ router.delete(
     return res.json(port);
   })
 );
+
+//POST call portfolio prices
+router.get(
+  "/portData/:userId/:portId",
+  asyncHandler(async (req, res) => {
+    const { userId, portId } = req.params;
+    const port = await PortfolioEntry.findAll({
+      where: { portfolioId: portId },
+      raw: true,
+      nest: true,
+    });
+    const stockList = [];
+    port.map(stock => stockList.push(stock.symbol))
+    const data = await si.getStocksInfo(stockList)
+    return res.json(data);
+  })
+);
+
+
+async function test (){
+  // const test = await si.getStocksInfo(stockList)
+  console.log("\n\n",test,"\n\n");
+}
+
 
 module.exports = router;

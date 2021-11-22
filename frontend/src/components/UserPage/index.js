@@ -31,7 +31,6 @@ export default function UserPage() {
 
   const selectOptions = Object.values(allWatchlists).map(wl => {
     return (<option key={wl.id} value={wl.id}>{wl.name}</option>)
-    // return (<h1>aiiieeeee</h1>)
   })
 
   // console.log(selectOptions)
@@ -48,7 +47,11 @@ export default function UserPage() {
     console.log(wlName)
   }
 
-  const sbPorts = Object.values
+  // const sbPorts = Object.values
+
+  const portsClick = () => {
+    dispatch(loadPortfolios(user.id))
+  }
 
   return (
     <div className="userpage-container">
@@ -56,13 +59,14 @@ export default function UserPage() {
       {/* <PortEntries /> */}
       <div className="wrapper-userpage-chart-trade">
         <div className="tradingview-chart-container">
+          <button onClick={portsClick}>load ports</button>
           <TradingViewWidget
             className="tv-widget"
             symbol={user.lastViewedSym}
             // theme={Themes.DARK}
             styles={{ width: "200rem !important" }}
             hide-side-toolbar={false}
-          />
+            />
         </div>
         <TradeCard portfolios={portfolios} watchlists={watchlists} user={user} />
       </div>

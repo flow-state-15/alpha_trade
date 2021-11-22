@@ -15,7 +15,7 @@ export default function PortEntries({ portId, user }) {
   const portData = useSelector((state) => state?.portData);
   const [portV, setPortV] = useState("loading...");
 
-  console.log(portEntries)
+  console.log("logging port in port entries",port)
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -51,7 +51,7 @@ export default function PortEntries({ portId, user }) {
     return acc;
   };
 
-  if (portEntries) {
+  if (port) {
     return (
       <div className="sidebar-wrapper">
         <div className="sidebar-name-wrapper">
@@ -61,8 +61,8 @@ export default function PortEntries({ portId, user }) {
           <h2>{"Portfolio value: " + portV}</h2>
           <PortCrud portId={port.id} userId={user.id} />
         </div>
-        {(portEntries && portData) ? (
-          Object.values(portData).map((entry) => (
+        {(Object.keys(port.portData).length) ? (
+          Object.values(port.portData).map((entry) => (
             <div
               className="sb-port-item-wrap"
               key={entry.id}
@@ -82,11 +82,11 @@ export default function PortEntries({ portId, user }) {
             </div>
           ))
         ) : (
-          <h1>No holdings in portfolio</h1>
+          <h2>No holdings in portfolio</h2>
         )}
       </div>
     );
   } else return (
-    <h1>No holdings in portfolio</h1>
+    null
   );
 }

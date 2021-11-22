@@ -17,6 +17,18 @@ module.exports = (sequelize, DataTypes) => {
     symbolName: {
       type: DataTypes.STRING
     },
+    value: {
+      type: DataTypes.DECIMAL,
+    },
+    change: {
+      type: DataTypes.DECIMAL,
+    },
+    createdAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      type: DataTypes.DATE
+    },
   }, {});
   PortfolioEntry.associate = function(models) {
     // associations can be defined here

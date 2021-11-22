@@ -4,16 +4,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
 import { setLastViewed } from "../../store/session";
 import PortCrud from "../PortCrud";
-import { getStockData } from "../../store/portfolios"
+import { getStockData } from "../../store/portData";
 
 export default function PortEntries({ portId, user }) {
   const dispatch = useDispatch();
   const port = useSelector((state) => state?.portfolios[portId]);
-  console.log("in port entries comp, portId:", port);
+  const portEntries = useSelector(
+    (state) => state?.portfolios[portId]?.PortfolioEntries
+  );
+  const portData = useSelector((state) => state?.portData);
+  const [portV, setPortV] = useState("loading...");
+
+  console.log(portEntries)
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  useEffect(() => {
+    (async () => {
+      console.log(portId, portEntries)
+      await dispatch(getStockData(user.id, portId));
+      setPortV(formatter.format(getPortValue()));
+    })();
+  }, [portId, portEntries]);
 
   const callStockInfo = async () => {
     dispatch(getStockData(user.id, portId));
-  }
+  };
 
   const handleClick = async (e) => {
     const update = {
@@ -24,37 +43,50 @@ export default function PortEntries({ portId, user }) {
     await dispatch(setLastViewed(update));
   };
 
-  if (port) {
+  const getPortValue = () => {
+    let acc = 0;
+    Object.values(portData).forEach((stock) => {
+      acc += stock.ask * stock.amount;
+    });
+    return acc;
+  };
+
+  if (portEntries) {
     return (
       <div className="sidebar-wrapper">
         <div className="sidebar-name-wrapper">
           {/* <div>{port.name}</div>
           <div className="edit-link">Edit</div> */}
           <h2>{port.name}</h2>
-          <h2>{"Portfolio value: " + port.currentFunds}</h2>
+          <h2>{"Portfolio value: " + portV}</h2>
           <PortCrud portId={port.id} userId={user.id} />
         </div>
-        <button onClick={callStockInfo}>getStockInfo</button>
-        <div>
-          {port.PortfolioEntries ? (
-            Object.values(port?.PortfolioEntries).map((entry) => (
-              <div
-                className="sb-content-item-wrap"
-                key={entry.id}
-                value={entry.symbol}
-                onClick={handleClick}
-              >
-                <div className="sb-content-item-name-wrap">
-                  <h3>{entry.amount}</h3>
-                  <h3 className="sb-content-item-symbol">{entry.symbol}</h3>
-                </div>
+        {(portEntries && portData) ? (
+          Object.values(portData).map((entry) => (
+            <div
+              className="sb-port-item-wrap"
+              key={entry.id}
+              value={entry.symbol}
+              onClick={handleClick}
+            >
+              <div className="sb-port-item-name-wrap">
+                <h3>{entry.amount}</h3>
+                <h3>{entry.symbol}</h3>
+                <h3 className="sb-port-item-symbol">
+                  {formatter.format(entry.ask)}
+                </h3>
+                <h3 className="sb-port-item-symbol">
+                  {parseFloat(entry.regularMarketChange).toFixed(2) + "%"}
+                </h3>
               </div>
-            ))
-          ) : (
-            <h1>No holdings in portfolio</h1>
-          )}
-        </div>
+            </div>
+          ))
+        ) : (
+          <h1>No holdings in portfolio</h1>
+        )}
       </div>
     );
-  } else return null;
+  } else return (
+    <h1>No holdings in portfolio</h1>
+  );
 }

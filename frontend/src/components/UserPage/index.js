@@ -59,7 +59,7 @@ export default function UserPage() {
           <TradingViewWidget
             className="tv-widget"
             symbol={user.lastViewedSym}
-            theme={Themes.DARK}
+            // theme={Themes.DARK}
             styles={{ width: "200rem !important" }}
             hide-side-toolbar={false}
           />
@@ -68,18 +68,20 @@ export default function UserPage() {
       </div>
       <div className="sb-select-with-content-wrapper">
         <h2>Select Watchlist</h2>
-        <form>
-          <select
-            value={selectedOption}
-            onChange={(e) => {
-              setSelectedOption(e.target.value);
-            }}
-          >
-            <option>select watchlist</option>
-            {selectOptions}
-            <option>testing</option>
-          </select>
-        </form>
+        <div className="sb-wl-slct-crud-wrap">
+          <form>
+            <select
+              value={selectedOption}
+              onChange={(e) => {
+                setSelectedOption(e.target.value);
+              }}
+            >
+              <option>select watchlist</option>
+              {selectOptions}
+            </select>
+          </form>
+          <button>create new watchlist</button>
+        </div>
         <WatchlistEntries watchlistId={selectedOption} user={user}/>
         <form onSubmit={handleSubmit}>
           <label>Create New Watchlist</label>

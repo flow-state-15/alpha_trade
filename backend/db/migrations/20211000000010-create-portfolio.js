@@ -21,13 +21,10 @@ module.exports = {
       currentFunds: {
         type: Sequelize.DECIMAL
       },
-      plYTD: {
+      value: {
         type: Sequelize.DECIMAL
       },
-      plMonth: {
-        type: Sequelize.DECIMAL
-      },
-      plDay: {
+      change: {
         type: Sequelize.DECIMAL
       },
       createdAt: {

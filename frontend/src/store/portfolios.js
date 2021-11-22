@@ -106,14 +106,6 @@ export const removePortfolio = (portfolioId) => async (dispatch) => {
   }
 };
 
-export const getStockData = (userId, portId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/portfolios/portData/${userId}/${portId}`);
-  if (response.ok) {
-    const data = await response.json();
-    console.log("\n\n", data, "\n\n");
-  }
-}
-
 const portfolioReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD:

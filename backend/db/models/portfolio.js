@@ -14,13 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     currentFunds: {
       type: DataTypes.DECIMAL
     },
-    plYTD: {
+    value: {
       type: DataTypes.DECIMAL
     },
-    plMonth: {
-      type: DataTypes.DECIMAL
-    },
-    plDay: {
+    change: {
       type: DataTypes.DECIMAL
     },
     createdAt: {

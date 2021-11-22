@@ -2,6 +2,8 @@
 
 .userpage-container {
     overflow-y: scroll;
+    display: flex;
+    gap: 1rem;
 }
 
 .wrapper-userpage-chart-trade {
@@ -19,7 +21,6 @@ article {
     padding: 0 !important;
     margin: 0 !important;
     width: max-content !important;
-    margin-left: 15rem !important;
 }
 
 #tradingview_2da16-wrapper > div {
@@ -32,4 +33,16 @@ article {
 
 .tradingview-chart-container {
     /* padding-left: 50rem; */
+}
+
+.sb-select-with-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sb-wl-slct-crud-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }

@@ -49,8 +49,12 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req, res) => {
-    const entry = await Portfolio.create(req.body);
-    return res.json(entry);
+    const port = await Portfolio.create(req.body);
+    const found = await Portfolio.findOne({
+      where: { id: port.id},
+      include: [{ model: PortfolioEntry }]
+    })
+    return res.json(found);
   })
 );
 
@@ -125,7 +129,14 @@ router.get(
     const stockList = [];
     port.map(stock => stockList.push(stock.symbol))
     const data = await si.getStocksInfo(stockList)
-    return res.json(data);
+
+    updatedData = []
+    data.map(stock => {
+      const found = port.find(stk => stk.symbol === stock.symbol)
+      updatedData.push({...stock, amount: found.amount})
+    })
+    console.log("\n\n", updatedData ,"\n\n");
+    return res.json(updatedData);
   })
 );
 

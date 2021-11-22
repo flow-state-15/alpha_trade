@@ -24,6 +24,12 @@ module.exports = {
       symbolName: {
         type: Sequelize.STRING
       },
+      value: {
+        type: Sequelize.DECIMAL,
+      },
+      change: {
+        type: Sequelize.DECIMAL,
+      },
       createdAt: {
         type: Sequelize.DATE
       },

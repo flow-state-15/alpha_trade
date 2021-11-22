@@ -34,6 +34,7 @@ export default function WatchlistEntries({ watchlistId, user }) {
         <div className="sidebar-name-wrapper">
           {/* <div>{watchlist.name}</div>
           <div className="edit-link">Edit</div> */}
+          <h2>{watchlist.name}</h2>
           <CrudModal watchlistId={watchlist.id} userId={user.id} />
         </div>
         <div>

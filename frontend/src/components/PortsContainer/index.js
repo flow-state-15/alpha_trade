@@ -8,6 +8,7 @@ export default function PortsContainer({ user }) {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const ports = useSelector((state) => state.portfolios);
+  const [selectedOption, setSelectedOption] = useState(Object.keys(ports)[0] || 0);
 
   const sbPorts = Object.values(ports).map((port) => (
     <PortEntries portId={port.id} user={user} />
@@ -27,8 +28,26 @@ export default function PortsContainer({ user }) {
     setShowForm(false);
   };
 
+  const selectOptions = Object.values(ports).map(port => {
+    return (<option key={port.id} value={port.id}>{port.name}</option>)
+  })
+
   return (
     <div className="sb-ports-wrapper">
+      <h2>Select Portfolio</h2>
+        <div className="sb-wl-slct-crud-wrap">
+          <form>
+            <select
+              value={selectedOption}
+              onChange={(e) => {
+                setSelectedOption(e.target.value);
+              }}
+            >
+              <option>select portfolio</option>
+              {selectOptions}
+            </select>
+          </form>
+        </div>
       <button onClick={() => setShowForm(true)}>create portfolio</button>
       {showForm && (
         <form className="sb-form-vertical" onSubmit={handleSubmit}>
@@ -43,7 +62,7 @@ export default function PortsContainer({ user }) {
           </button>
         </form>
       )}
-      {sbPorts}
+      <PortEntries portId={selectedOption} user={user} />
     </div>
   );
 }

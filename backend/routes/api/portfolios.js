@@ -45,7 +45,7 @@ router.get(
     //   portfolios,
     // });
     let normalized = {};
-    for(let port of portfolios) {
+    for (let port of portfolios) {
       const entries = await PortfolioEntry.findAll({
         where: { portfolioId: port.id },
       });
@@ -53,31 +53,32 @@ router.get(
       entries.forEach((entry) => {
         portList.push(entry.symbol);
       });
-      console.log("\n\n portlist", portList, "\n\n");
+      // console.log("\n\n portlist", portList, "\n\n");
       if (portList.length) {
         const data = await si.getStocksInfo(portList);
         updatedData = {};
         data.map((stock) => {
-          const found = entries.find(
-            (stk) => stk.symbol === stock.symbol
-            );
-            updatedData[stock.symbol] = { ...stock, amount: found.amount };
-          });
-          normalized[port.id] = {
-            ...port,
-            portData: updatedData,
-          };
-          console.log("\n\n normalized 1", normalized, "\n\n");
-          continue
+          const found = entries.find((stk) => stk.symbol === stock.symbol);
+          updatedData[stock.symbol] = { ...stock, amount: found.amount };
+        });
+        let portValue = 0;
+        Object.values(updatedData).forEach( obj => portValue += parseInt(obj.ask) * parseInt(obj.amount))
+        normalized[port.id] = {
+          ...port,
+          portData: updatedData,
+          value: portValue,
+        };
+        // console.log("\n\n normalized 1", normalized, "\n\n");
+        continue;
       } else {
         normalized[port.id] = {
           ...port,
           portData: {},
         };
-        console.log("\n\n else normalized 2", normalized, "\n\n");
+        // console.log("\n\n else normalized 2", normalized, "\n\n");
       }
     }
-    console.log("\n\n final normalized", normalized, "\n\n");
+    // console.log("\n\n final normalized", normalized, "\n\n");
 
     return res.json(normalized);
   })
@@ -101,6 +102,7 @@ router.put(
   "/:id",
   asyncHandler(async function (req, res) {
     const id = req.params.id;
+    // console.log("\n\n in put /:id, req.params.id, req body:", req.params.id, req.body, "\n\n")
     const port = await Portfolio.findByPk(id);
     await port.update(req.body);
     const updatedport = await Portfolio.findOne({
@@ -115,7 +117,7 @@ router.put(
 router.post(
   "/transact/:portId",
   asyncHandler(async (req, res) => {
-    // console.log("\n\n",req.body, "\n\n")
+
     const portId = req.params.portId;
 
     const found = await PortfolioEntry.findOne({
@@ -129,18 +131,24 @@ router.post(
         include: [{ model: PortfolioEntry }],
       });
       return res.json(port);
+
     } else {
-      const newAmount = parseInt(found.amount) + parseInt(req.body.amount);
-      await found.update({
-        portfolioId: req.body.portfolioId,
-        amount: newAmount,
-        symbol: req.body.symbol,
-      });
+
+      if (req.body.amount === 0) {
+        await PortfolioEntry.destroy({
+          where: { portfolioId: req.body.portfolioId, symbol: req.body.symbol },
+        });
+      } else {
+        await found.update({
+          amount: req.body.amount,
+        });
+      }
       // console.log("\n\n", found, "\n\n")
       const port = await Portfolio.findOne({
         where: { id: portId },
         include: [{ model: PortfolioEntry }],
       });
+
       return res.json(port);
     }
   })

@@ -1,7 +1,7 @@
 import "./TradeCard.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { portTransaction, updatePortfolio } from '../../store/portfolios'
+import { loadPortfolios, portTransaction, updatePortfolio } from '../../store/portfolios'
 
 export default function TradeCard({ portfolios, watchlists, user }) {
   const dispatch = useDispatch();
@@ -19,6 +19,10 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   useEffect(() => {
     setTicker(user.lastViewedSym)
   }, [user]);
+
+  useEffect(() => {
+    console.log(transType)
+  }, [transType])
 
   const selectOptions = Object.values(portfolios).map((port) => {
     return (
@@ -39,21 +43,41 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
   const handleTransaction = async (e, type) => {
     e.preventDefault();
-    // console.log("portfolio >>>>",portfolio)
+
     if(type === "buy" && portfolio.currentFunds < findPrice(price, shares)){
       setError("not enough buying power");
-    } else if(type === "buy" && portfolio.currentFunds > findPrice(price, shares)) {
+    } else if (type === "buy" && portfolio.currentFunds > findPrice(price, shares)) {
       const action = {
         portfolioId: portfolio.id,
-        amount: shares,
+        amount: parseInt(portfolio.portData[ticker].amount) + parseInt(shares),
         symbol: ticker.toUpperCase(),
       };
-      console.log("in handleTransaction, port >> action", portfolio, action)
+      // console.log("in handleTransaction, port >> action", portfolio, action)
       await dispatch(portTransaction(action))
       const portUpdate = {
         ...portfolio, currentFunds: portfolio.currentFunds - findPrice(price, shares)
       }
       await dispatch(updatePortfolio(portUpdate))
+      dispatch(loadPortfolios(user.id))
+      setShares("");
+      setPrice("")
+      setError("")
+    } else if (transType === "sell" && portfolio.portData.hasOwnProperty(ticker) && portfolio.portData[ticker].amount >= shares) {
+      const newAmount = parseInt(portfolio.portData[ticker].amount) - parseInt(shares)
+      const action = {
+        portfolioId: portfolio.id,
+        amount: newAmount,
+        symbol: ticker.toUpperCase(),
+      };
+      console.log("in handleTransaction, port >> action", portfolio, action)
+      await dispatch(portTransaction(action))
+      const portUpdate = {
+        id: portfolio.id,
+        currentFunds: parseInt(portfolio.currentFunds) + parseInt(findPrice(price, shares))
+      }
+      console.log("logging portUpdate, currentfunds: ", portUpdate)
+      await dispatch(updatePortfolio(portUpdate))
+      dispatch(loadPortfolios(user.id))
       setShares("");
       setPrice("")
       setError("")
@@ -85,7 +109,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
               {selectOptions}
             </select>
             <label>ticker:</label>
-            <input required value={ticker} onChange={(e) => setTicker(e.target.value)}/>
+            <input required value={ticker} onChange={(e) => setTicker(e.target.value.toUpperCase())}/>
             <label>Shares</label>
             <input required value={shares} onChange={(e) => {setShares(e.target.value); setError("")}}/>
             <label>Price</label>

@@ -5,6 +5,7 @@ import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
 import { setLastViewed } from "../../store/session";
 import PortCrud from "../PortCrud";
 import { getStockData } from "../../store/portData";
+import { loadPortfolios } from "../../store/portfolios";
 
 export default function PortEntries({ portId, user }) {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function PortEntries({ portId, user }) {
   const portData = useSelector((state) => state?.portData);
   const [portV, setPortV] = useState("loading...");
 
-  console.log("logging port in port entries",port)
+  // console.log("logging port in port entries",port)
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -24,11 +25,13 @@ export default function PortEntries({ portId, user }) {
 
   useEffect(() => {
     (async () => {
-      console.log(portId, portEntries)
-      await dispatch(getStockData(user.id, portId));
-      setPortV(formatter.format(getPortValue()));
+      // console.log(portId, portEntries)
+      await dispatch(loadPortfolios(user.id));
+      // if(Object.keys(port.portData).length){
+      //   setPortV(formatter.format(getPortValue()));
+      // }
     })();
-  }, [portId, portEntries]);
+  }, [portId]);
 
   const callStockInfo = async () => {
     dispatch(getStockData(user.id, portId));
@@ -45,7 +48,8 @@ export default function PortEntries({ portId, user }) {
 
   const getPortValue = () => {
     let acc = 0;
-    Object.values(portData).forEach((stock) => {
+    console.log("Object.values(port.portData) ::", port.portData, Object.values(port.portData));
+    Object.values(port.portData).forEach((stock) => {
       acc += stock.ask * stock.amount;
     });
     return acc;
@@ -58,7 +62,7 @@ export default function PortEntries({ portId, user }) {
           {/* <div>{port.name}</div>
           <div className="edit-link">Edit</div> */}
           <h2>{port.name}</h2>
-          <h2>{"Portfolio value: " + portV}</h2>
+          <h2>{"Portfolio value: " + formatter.format(port.value)}</h2>
           <PortCrud portId={port.id} userId={user.id} />
         </div>
         {(Object.keys(port.portData).length) ? (

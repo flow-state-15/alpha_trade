@@ -37,7 +37,7 @@ export const loadPortfolios = (userId) => async (dispatch) => {
     //   normalize[portfolios[i].id]["PortfolioEntries"] = included;
     // }
 
-    console.log("\n\nIN pt LOAD THUNK, pt: ", portfolios, "\n\n")
+    // console.log("\n\nIN pt LOAD THUNK, pt: ", portfolios, "\n\n")
 
   dispatch(load(portfolios));
   return portfolios
@@ -72,7 +72,7 @@ export const updatePortfolio = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const portfolio = await response.json();
-    dispatch(add(portfolio));
+    // dispatch(add(portfolio));
   }
 };
 
@@ -87,8 +87,8 @@ export const portTransaction = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const portfolio = await response.json();
-    console.log("return from backend, port",portfolio);
-    dispatch(add(portfolio));
+    // console.log("return from backend, port",portfolio);
+    // dispatch(add(portfolio));
   }
 };
 

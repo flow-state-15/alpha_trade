@@ -47,9 +47,15 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     if(type === "buy" && portfolio.currentFunds < findPrice(price, shares)){
       setError("not enough buying power");
     } else if (type === "buy" && portfolio.currentFunds > findPrice(price, shares)) {
+      let amount;
+      if (!portfolio.portData[ticker]){
+        amount = parseInt(shares)
+      } else {
+        amount = parseInt(portfolio.portData[ticker].amount) + parseInt(shares)
+      }
       const action = {
         portfolioId: portfolio.id,
-        amount: parseInt(portfolio.portData[ticker].amount) + parseInt(shares),
+        amount: amount,
         symbol: ticker.toUpperCase(),
       };
       // console.log("in handleTransaction, port >> action", portfolio, action)

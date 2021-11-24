@@ -1,6 +1,8 @@
 import { Container, Row, Col } from "react-grid-system";
+import { useState } from "react"
 
 export default function StrikeMapCard({ calls, puts, exp }) {
+    const [toggle, setToggle] = useState(false)
   const rawDate = exp.split(":")[0];
   const daysTilExp = exp.split(":")[1];
   const options = {
@@ -12,12 +14,15 @@ export default function StrikeMapCard({ calls, puts, exp }) {
 
   console.log(calls, puts, exp);
   return (
-    <div>
-      <div className="strike-date-wrap">
+    <div className="strike-map-card-wrap">
+      <div
+        className="strike-date-wrap"
+        onClick={(e) => setToggle(!toggle)}
+        >
         <h2>{date.toLocaleDateString("en-US", options)}</h2>
         <h2>{`days til exp: ${daysTilExp}`}</h2>
       </div>
-      <Container fluid>
+      {toggle && <Container fluid>
         <Row debug>
           <Col debug>
             <Row>
@@ -89,7 +94,7 @@ export default function StrikeMapCard({ calls, puts, exp }) {
             ))}
           </Col>
         </Row>
-      </Container>
+      </Container>}
     </div>
   );
 }

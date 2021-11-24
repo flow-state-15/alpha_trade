@@ -2,6 +2,7 @@ import "./TradeCard.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadPortfolios, portTransaction, updatePortfolio } from '../../store/portfolios'
+import { getOptionsChain } from '../../store/portData'
 
 export default function TradeCard({ portfolios, watchlists, user }) {
   const dispatch = useDispatch();
@@ -22,9 +23,9 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     setTicker(user.lastViewedSym)
   }, [user]);
 
-  useEffect(() => {
-    console.log(transType)
-  }, [transType])
+  // useEffect(() => {
+  //   console.log(transType)
+  // }, [transType])
 
   const selectOptions = Object.values(portfolios).map((port) => {
     return (
@@ -94,6 +95,12 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     }
   };
 
+
+  const portsClick = () => {
+    console.log(getOptionsChain)
+    dispatch(getOptionsChain({ symbol: ticker }));
+  };
+
   if (user) {
     return (
       <div className="wrapper-trade-card">
@@ -124,10 +131,11 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             <input required value={price} onChange={(e) => {setPrice(e.target.value); setError("")}}/>
             <div>Est. price: {formatter.format(findPrice(shares, price))}</div>
             <button type="submit" disabled={selectedOption === "select portfolio"}>Submit Order</button>
-            <h3>
+            <div>
               {(selectedOption !== "select portfolio") ?
               formatter.format(portfolio?.currentFunds)+" buying power available" : <p>please select a portfolio for this transaction</p>}
-            </h3>
+            </div>
+            <button onClick={portsClick}>get options data</button>
           </form>
         </div>
       </div>

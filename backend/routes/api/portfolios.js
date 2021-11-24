@@ -6,6 +6,8 @@ const { Portfolio, PortfolioEntry } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const si = require("stock-info");
+const fetch = require('node-fetch');
+// import fetch from 'node-fetch';
 
 const router = express.Router();
 
@@ -187,6 +189,24 @@ router.get(
     });
     console.log("\n\n", updatedData, "\n\n");
     return res.json(updatedData);
+  })
+);
+
+//GET options chain data
+router.post(
+  "/optionsChain/:sym",
+  asyncHandler(async (req, res) => {
+    const form = req.body;
+
+    console.log("\n\n in options route, form: ", form, "\n\n")
+
+    const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${form.symbol}&contractType=ALL&strikeCount=2&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL HTTP/1.1`)
+
+    const data = await response.json()
+
+    // console.log("dispatched fetch to tdameritrade, data: ", data)
+
+    return res.json(data);
   })
 );
 

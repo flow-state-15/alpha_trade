@@ -1,0 +1,13 @@
+.strike-date-wrap{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.strike-middle {
+    width: fit-content;
+}
+
+.opt-data-col {
+    text-align: center;
+}

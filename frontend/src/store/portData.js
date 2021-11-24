@@ -18,6 +18,21 @@ export const getStockData = (userId, portId) => async (dispatch) => {
   // }
 };
 
+export const getOptionsChain = (formData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/portfolios/optionsChain/${formData.symbol}/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    console.log("in getOptionsChain thunk, data:", data)
+    return data;
+  }
+};
+
 const portDataReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD:

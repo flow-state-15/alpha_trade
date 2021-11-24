@@ -8,11 +8,19 @@
 
 .wrapper-userpage-chart-trade {
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.userpage-chart-trade-card {
+    display: flex;
     gap: 1rem;
     height: fit-content;
     padding-top: 3rem;
     justify-content: space-between;
 }
+
 
 .tv-widget {
 }

@@ -10,7 +10,9 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     "select portfolio"
   );
   const portfolio = useSelector((state) => state.portfolios[selectedOption]);
-  const [ticker, setTicker] = useState(user.lastViewedSym.toUpperCase());
+  const [ticker, setTicker] = useState(
+    (user.lastViewedSym)? user.lastViewedSym.toUpperCase(): "AAPL"
+    );
   const [shares, setShares] = useState("")
   const [price, setPrice] = useState("")
   const [transType, setTransType] = useState("buy")

@@ -1,0 +1,25 @@
+.btn-reg-clear {
+    margin: 1rem;
+    color: #436EF0;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.sb-ports-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 20rem;
+    margin-left: 1rem;
+}
+
+.sb-wl-slct-crud-wrap {
+    align-items: center;
+}
+
+.sb-ports-wrapper select {
+    width: 100%;
+}

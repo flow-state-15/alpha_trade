@@ -1,22 +1,24 @@
 import PortEntries from "../PortEntries";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addPortfolio } from "../../store/portfolios"
+import { addPortfolio } from "../../store/portfolios";
+import "./PortsContainer.css";
 
 export default function PortsContainer({ user }) {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const ports = useSelector((state) => state.portfolios);
-  const [selectedOption, setSelectedOption] = useState(Object.keys(ports)[0] || 0);
+  const [selectedOption, setSelectedOption] = useState(
+    Object.keys(ports)[0] || 0
+  );
 
   const sbPorts = Object.values(ports).map((port) => (
     <PortEntries portId={port.id} user={user} />
   ));
 
-
   const handleSubmit = async (e) => {
-      e.preventDefault()
+    e.preventDefault();
     const add = {
       name: name,
       userId: user.id,
@@ -24,31 +26,33 @@ export default function PortsContainer({ user }) {
       currentFunds: 100000,
     };
     await dispatch(addPortfolio(add));
-    setName("")
+    setName("");
     setShowForm(false);
   };
 
-  const selectOptions = Object.values(ports).map(port => {
-    return (<option key={port.id} value={port.id}>{port.name}</option>)
-  })
+  const selectOptions = Object.values(ports).map((port) => {
+    return (
+      <option key={port.id} value={port.id}>
+        {port.name}
+      </option>
+    );
+  });
 
   return (
     <div className="sb-ports-wrapper">
       <h2>Select Portfolio</h2>
-        <div className="sb-wl-slct-crud-wrap">
-          <form>
-            <select
-              value={selectedOption}
-              onChange={(e) => {
-                setSelectedOption(e.target.value);
-              }}
-            >
-              <option>select portfolio</option>
-              {selectOptions}
-            </select>
-          </form>
-        </div>
-      <button onClick={() => setShowForm(true)}>create portfolio</button>
+      <select
+        value={selectedOption}
+        onChange={(e) => {
+          setSelectedOption(e.target.value);
+        }}
+      >
+        <option>select portfolio</option>
+        {selectOptions}
+      </select>
+      <button className="btn-reg-clear" onClick={() => setShowForm(true)}>
+       - create portfolio -
+      </button>
       {showForm && (
         <form className="sb-form-vertical" onSubmit={handleSubmit}>
           <input

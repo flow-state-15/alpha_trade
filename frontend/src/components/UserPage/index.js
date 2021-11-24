@@ -63,7 +63,7 @@ export default function UserPage() {
           <TradingViewWidget
             className="tv-widget"
             symbol={user.lastViewedSym}
-            // theme={Themes.DARK}
+            theme={Themes.DARK}
             styles={{ width: "200rem !important" }}
             hide-side-toolbar={false}
             />

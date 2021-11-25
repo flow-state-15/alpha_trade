@@ -67,7 +67,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         ...portfolio, currentFunds: portfolio.currentFunds - findPrice(price, shares)
       }
       await dispatch(updatePortfolio(portUpdate))
-      dispatch(loadPortfolios(user.id))
+      await dispatch(loadPortfolios(user.id))
       setShares("");
       setPrice("")
       setError("")

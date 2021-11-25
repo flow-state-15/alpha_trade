@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     watchlistId: {
       allowNull: false,
       references: { model: "Watchlists" },
+      onDelete: "CASCADE",
       type: DataTypes.INTEGER
     },
     symbol: {

@@ -1,7 +1,10 @@
 import PortEntries from "../PortEntries";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addPortfolio } from "../../store/portfolios";
+import {
+  addPortfolio,
+  loadPortfolios,
+} from "../../store/portfolios";
 import "./PortsContainer.css";
 
 export default function PortsContainer({ user }) {
@@ -13,10 +16,6 @@ export default function PortsContainer({ user }) {
     Object.keys(ports)[0] || 0
   );
 
-  const sbPorts = Object.values(ports).map((port) => (
-    <PortEntries portId={port.id} user={user} />
-  ));
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const add = {
@@ -25,9 +24,10 @@ export default function PortsContainer({ user }) {
       startingFunds: 100000,
       currentFunds: 100000,
     };
-    await dispatch(addPortfolio(add));
     setName("");
     setShowForm(false);
+    await dispatch(addPortfolio(add));
+    await dispatch(loadPortfolios(user.id));
   };
 
   const selectOptions = Object.values(ports).map((port) => {
@@ -43,15 +43,15 @@ export default function PortsContainer({ user }) {
       <h2>Select Portfolio</h2>
       <select
         value={selectedOption}
-        onChange={(e) => {
-          setSelectedOption(e.target.value);
+        onChange={async (e) => {
+          await setSelectedOption(e.target.value);
         }}
       >
-        <option>select portfolio</option>
+        <option value={false}>select portfolio</option>
         {selectOptions}
       </select>
       <button className="btn-reg-clear" onClick={() => setShowForm(true)}>
-       - create portfolio -
+        - create portfolio -
       </button>
       {showForm && (
         <form className="sb-form-vertical" onSubmit={handleSubmit}>

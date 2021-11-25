@@ -1,6 +1,7 @@
 import "./UserPage.css";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, } from "react-redux";
+import { useLocation } from 'react-router-dom'
 import TradingViewWidget, { Themes } from "react-tradingview-widget";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
@@ -12,6 +13,7 @@ import OptionsData from "../OptionsData";
 
 export default function UserPage() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state.session.user);
   const portfolios = useSelector((state) => state.portfolios);
   const watchlists = useSelector((state) => state.watchlists);
@@ -25,10 +27,12 @@ export default function UserPage() {
   // console.log(wlName)
 
   useEffect(() => {
-    (async () => {
-      dispatch(loadPortfolios(user.id));
-      dispatch(loadWatchlists(user.id));
-    })()
+    if(location.pathname !== "/"){
+      (async () => {
+        dispatch(loadPortfolios(user.id));
+        dispatch(loadWatchlists(user.id));
+      })()
+    }
   }, [dispatch, user]);
 
   const selectOptions = Object.values(allWatchlists).map((wl) => {

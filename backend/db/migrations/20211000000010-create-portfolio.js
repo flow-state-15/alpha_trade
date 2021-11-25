@@ -13,6 +13,7 @@ module.exports = {
       },
       userId: {
         references: { model: "Users" },
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER
       },
       startingFunds: {

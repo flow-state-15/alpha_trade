@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     portfolioId: {
       allowNull: false,
       references: { model: "Portfolios" },
+      onDelete: "CASCADE",
       type: DataTypes.INTEGER
     },
     amount: {

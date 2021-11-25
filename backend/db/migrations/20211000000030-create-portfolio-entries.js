@@ -11,6 +11,7 @@ module.exports = {
       portfolioId: {
         allowNull: false,
         references: { model: "Portfolios" },
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER
       },
       amount: {

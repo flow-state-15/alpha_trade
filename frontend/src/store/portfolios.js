@@ -72,6 +72,7 @@ export const updatePortfolio = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const portfolio = await response.json();
+    console.log("in update portfolio thunk, portfolio: ",portfolio)
     // dispatch(add(portfolio));
   }
 };

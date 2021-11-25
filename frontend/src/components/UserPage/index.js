@@ -25,9 +25,11 @@ export default function UserPage() {
   // console.log(wlName)
 
   useEffect(() => {
-    dispatch(loadPortfolios(user.id));
-    dispatch(loadWatchlists(user.id));
-  }, [dispatch]);
+    (async () => {
+      dispatch(loadPortfolios(user.id));
+      dispatch(loadWatchlists(user.id));
+    })()
+  }, [dispatch, user]);
 
   const selectOptions = Object.values(allWatchlists).map((wl) => {
     return (

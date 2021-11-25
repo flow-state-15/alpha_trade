@@ -19,7 +19,8 @@ export default function UserPage() {
   const [selectedOption, setSelectedOption] = useState(
     Object.keys(watchlists)[0] || 0
   );
-  const [wlName, setWLName] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState("");
 
   // console.log(wlName)
 
@@ -41,26 +42,23 @@ export default function UserPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newWL = {
-      name: wlName,
+      name: name,
       userId: user.id,
     };
     console.log("in handle submit, newWL: ", newWL);
     await dispatch(addWatchlist(newWL));
-    await setWLName("");
-    console.log(wlName);
+    await setName("");
+    console.log(name);
   };
 
   // const sbPorts = Object.values
 
-
   return (
     <div className="userpage-container">
       <PortsContainer user={user} />
-      {/* <PortEntries /> */}
       <div className="wrapper-userpage-chart-trade">
         <div className="userpage-chart-trade-card">
           <div className="tradingview-chart-container">
-
             <TradingViewWidget
               className="tv-widget"
               symbol={user.lastViewedSym}
@@ -79,32 +77,36 @@ export default function UserPage() {
       </div>
       <div className="sb-select-with-content-wrapper">
         <h2>Select Watchlist</h2>
-        <div className="sb-wl-slct-crud-wrap">
-          <form>
-            <select
-              value={selectedOption}
-              onChange={(e) => {
-                setSelectedOption(e.target.value);
-              }}
-            >
-              <option>select watchlist</option>
-              {selectOptions}
-            </select>
+
+        <select
+          value={selectedOption}
+          onChange={(e) => {
+            setSelectedOption(e.target.value);
+          }}
+        >
+          <option>select watchlist</option>
+          {selectOptions}
+        </select>
+        <button className="btn-reg-clear" onClick={() => setShowForm(true)}>
+          - create watchlist -
+        </button>
+        {showForm && (
+          <form className="sb-form-vertical" onSubmit={handleSubmit}>
+            <input
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus={true}
+            />
+            <div className="create-crud-btn-wrap">
+              <span onClick={() => setShowForm(false)}>cancel</span>
+              <button disabled={name === ""} type="submit">
+                create portfolio
+              </button>
+            </div>
           </form>
-          <button>create new watchlist</button>
-        </div>
+        )}
         <WatchlistEntries watchlistId={selectedOption} user={user} />
-        <form onSubmit={handleSubmit}>
-          <label>Create New Watchlist</label>
-          <input
-            required
-            value={wlName}
-            onChange={(e) => setWLName(e.target.value)}
-          />
-          <button type="submit" disabled={wlName === ""}>
-            create
-          </button>
-        </form>
       </div>
     </div>
   );

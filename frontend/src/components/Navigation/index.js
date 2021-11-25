@@ -1,30 +1,35 @@
 import { useState, useEffect } from "react";
-import ProfileButton from "./ProfileButton";
-import LoginFormModal from "../LoginFormModal";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
-import { login, logout } from "../../store/session";
+import {
+  NavLink,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
+import { login, logout, restoreUser } from "../../store/session";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
-import DropDownMenu from "../DropDownMenu";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
-  const history = useHistory();
-  const [demo, setDemo] = useState(false);
-  const [drop1, setDrop1] = useState(false);
-  const [drop2, setDrop2] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const [demo, setDemo] = useState(false);
   const user = useSelector((state) => state.session.user);
 
   const dispatchDemoLogin = () => {
-    dispatch(login({credential: "dougdemo@demodome.io", password: "password"})).then(() => { return history.push("/@profile/1")});
+    dispatch(
+      login({ credential: "dougdemo@demodome.io", password: "password" })
+    ).then(() => {
+      return history.push("/@profile/1");
+    });
     setDemo(true);
   };
 
   function loginClick() {
     history.push("/login");
-    return (<Redirect to="/login" />)
+    return <Redirect to="/login" />;
   }
 
   function signupClick() {
@@ -36,43 +41,28 @@ function Navigation({ isLoaded }) {
     history.push("/");
   };
 
-  // let sessionLinks;
-  // if (user) {
-  //   sessionLinks = <ProfileButton user={user} />;
-  // } else {
-  //   sessionLinks = (
-  //     <>
-  //       <LoginFormModal />
-  //       <NavLink to="/signup">Sign Up</NavLink>
-  //     </>
-  //   );
-  // }
-
-  // console.log("\n\n", user, "\n\n")
+  const enterApp = async () => {
+    if (user) {
+      await dispatch(restoreUser());
+      history.push("/@profile/:userId");
+    } else {
+      history.push("/login");
+    }
+  };
 
   useEffect(() => {
-    // if(user){
-      dispatch(loadPortfolios(user?.id))
-      // console.log("dispatching load ports")
-      dispatch(loadWatchlists(user?.id))
-      // console.log("dispatching load watch")
-    // }
+    dispatch(loadPortfolios(user?.id));
+    dispatch(loadWatchlists(user?.id));
   }, []);
-
-  const watchlists = Object.values(useSelector((state) => state.watchlists))
-  const portfolios = Object.values(useSelector((state) => state.portfolios))
-
-  // const watchlistDD = watchlists.map((watchlist) => <Link to={`/@profile/${user.id}/watchlists/${watchlist.id}`}>{watchlist.name}</Link>)
-
-  // const portfolioDD = portfolios.map((portfolio) => <Link to={`/@profile/${user.id}/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)
 
   return (
     <>
       <nav className="navbar">
         <div>
           <NavLink
-            exact to="/"
-            style={{ textDecoration: 'none' }}
+            exact
+            to="/"
+            style={{ textDecoration: "none" }}
             className="home-icon-container"
           >
             <span className="logo-text">AlphaTrade</span>
@@ -91,54 +81,36 @@ function Navigation({ isLoaded }) {
           {/* {user ? <Redirect to={`/@profile/${user.id}`} /> : null} */}
           {user ? (
             <>
-              {/* <div className="dd-active"
-                onClick={() => {setDrop1(!drop1); console.log(drop1, watchlistDD)}}
-                >
-                Watchlists
-                <div className="dd-hidden" >
-                  { watchlistDD }
-                </div>
-              </div>
-              <div
-                className="dd-active"
-                onClick={() => {setDrop2(!drop2)}}
-                >
-                Portfolios
-                <div className="dd-hidden">
-                  { portfolioDD }
-                </div>
-              </div> */}
-              <DropDownMenu array={watchlists} user={user} name='Watchlists' />
-              <DropDownMenu array={portfolios} user={user} name='Portfolios' />
+              {location.pathname === "/" && (
+                <button className="nav-bar-buttons" onClick={enterApp}>
+                  Enter App
+                </button>
+              )}
               <button className="nav-bar-buttons" onClick={onLogout}>
                 Logout
               </button>
             </>
           ) : (
             <div className="nav-button-wrap">
-              <div>
-                <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
-                  Demo User
-                </button>
-                <button
-                  className="nav-bar-buttons"
-                  onClick={() => loginClick()}
-                  exact={true}
-                  activeClassName="active"
-                >
-                  Login
-                </button>
-              </div>
-              <div>
-                <button
-                  className="nav-bar-buttons"
-                  onClick={() => signupClick()}
-                  exact={true}
-                  activeClassName="active"
-                >
-                  Sign Up
-                </button>
-              </div>
+              <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
+                Demo User
+              </button>
+              <button
+                className="nav-bar-buttons"
+                onClick={() => loginClick()}
+                exact={true}
+                activeClassName="active"
+              >
+                Login
+              </button>
+              <button
+                className="nav-bar-buttons"
+                onClick={() => signupClick()}
+                exact={true}
+                activeClassName="active"
+              >
+                Sign Up
+              </button>
             </div>
           )}
         </div>

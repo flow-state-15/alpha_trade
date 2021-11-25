@@ -28,3 +28,17 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+.sb-content-item-col {
+    text-align: left !important;
+    padding: none !important;
+}
+
+.sb-grid-container:hover {
+    overflow-y: auto !important;
+    scrollbar-width: 0.05rem !important;
+}
+
+.sb-grid-container::webkit-scrollbar {
+    width: 0.05rem !important;
+}

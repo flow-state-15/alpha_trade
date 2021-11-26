@@ -122,7 +122,7 @@ export default function PortEntries({ portId, user }) {
             className="sb-port-item-wrap"
             key={entry.id}
             value={entry.symbol}
-            onClick={handleClick}
+            // onClick={handleClick}
           >
             <div className="sb-port-item-name-wrap">
               <h3>{entry.amount}</h3>

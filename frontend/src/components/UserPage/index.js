@@ -51,10 +51,10 @@ export default function UserPage() {
       name: name,
       userId: user.id,
     };
-    console.log("in handle submit, newWL: ", newWL);
     await dispatch(addWatchlist(newWL));
+    dispatch(loadWatchlists(user.id));
     await setName("");
-    console.log(name);
+    setShowForm(false)
   };
 
   // const sbPorts = Object.values
@@ -107,7 +107,7 @@ export default function UserPage() {
             <div className="create-crud-btn-wrap">
               <span onClick={() => setShowForm(false)}>cancel</span>
               <button disabled={name === ""} type="submit">
-                create portfolio
+                create watchlist
               </button>
             </div>
           </form>

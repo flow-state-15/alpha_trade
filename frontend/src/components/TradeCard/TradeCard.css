@@ -10,10 +10,11 @@
 .wrapper-buy-sell-trade-card {
     display: flex;
     justify-content: space-around;
-    border-bottom: 1px solid black;
+    border-top: 1px solid black;
     width: 100%;
     font-size: 2.8rem;
-    padding-bottom: 1rem;
+    margin-top: 4rem;
+    padding: 2rem 0;
 }
 
 .wrapper-amount-trade-card {
@@ -39,4 +40,16 @@
 
 .wrapper-trade-form select {
     width: 100%;
+}
+
+.tradecard-add-to-wl-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    padding-top: 3rem;
+}
+
+.btn-getstockdata {
+    margin-top: 3rem;
 }

@@ -74,7 +74,7 @@ export default function OptionsData({ user }) {
   return (
     <div className="options-data-wrap">
       {error.length && error.map((err) => <h3 key={err}>{err}</h3>)}
-      {data ? (
+      {data.underlying ? (
         <Container className="data-underlying-data-wrap">
           <Row>
             <Col>
@@ -106,9 +106,9 @@ export default function OptionsData({ user }) {
             </Col>
           </Row>
         </Container>
-      ) : null}
+      ) : <h1>{`no data for stock ${user.lastViewedSym}`}</h1>}
       <h1 style={{ padding: "1rem;" }}>Option Chain</h1>
-      {data
+      {data && Object.keys(data.callExpDateMap).length
         ? Object.keys(data.callExpDateMap).map((strike) => (
             <StrikeMapCard
               calls={data.callExpDateMap[strike]}
@@ -116,7 +116,7 @@ export default function OptionsData({ user }) {
               exp={strike}
             />
           ))
-        : null}
+        : <h1>no options data</h1>}
     </div>
   );
 }

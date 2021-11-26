@@ -5,6 +5,7 @@ const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { Watchlist, WatchlistEntry } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const fetch = require('node-fetch');
 
 const router = express.Router();
 
@@ -84,6 +85,37 @@ router.delete(
       include: [{ model: WatchlistEntry }]
     });
     return res.json(findwl);
+  })
+);
+
+//ADD symbol to watchlist
+router.post(
+  "/addSymbol",
+  asyncHandler(async function (req, res) {
+    const form = req.body
+
+
+    await WatchlistEntry.create(form);
+
+    const findwl = await Watchlist.findOne({
+      where: { id: form.watchlistId },
+      include: [{ model: WatchlistEntry }]
+    });
+    console.log("\n\n watchlist with new entry:: ",findwl,"\n\n")
+    return res.json(findwl);
+  })
+);
+
+//check for valid symbol
+router.post(
+  "/checkSymbol/",
+  asyncHandler(async function (req, res) {
+
+    const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/${req.body.ticker}/quotes?apikey=${process.env.API_KEY}`)
+
+    const data = await response.json()
+
+    return res.json(data);
   })
 );
 

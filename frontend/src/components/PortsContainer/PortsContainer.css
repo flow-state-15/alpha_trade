@@ -10,9 +10,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    /* gap: 1rem; */
     margin-top: 3rem;
     width: 25rem;
+    border: 1px solid #D9DADB;
+    border-radius: 0.3rem;
+    height: 61rem;
+    overflow: hidden;
+    scrollbar-gutter: stable;
+    direction: rtl;
+    padding-right: 1.5rem;
 }
 
 .sb-wl-slct-crud-wrap {
@@ -22,4 +29,13 @@
 .sb-ports-wrapper select {
     width: 100%;
     text-align: center;
+    margin-top: 1rem;
+}
+
+.sb-ports-wrapper:hover {
+    overflow-y: auto;
+}
+
+.sb-ports-wrapper h2 {
+    margin-top: 1.5rem;
 }

@@ -34,14 +34,14 @@ export default function WatchlistEntries({ watchlistId, user }) {
           {/* <div>{watchlist.name}</div>
           <div className="edit-link">Edit</div> */}
           <h2>{watchlist.name}</h2>
-          <CrudModal watchlistId={watchlist.id} userId={user.id} />
+          <CrudModal watchlistId={watchlist.id} userId={user.id} wlName={watchlist.name} />
         </div>
         <Container
           style={{
-            maxHeight: "100vh",
-            overflow: "hidden",
-            scrollbarWidth: "4px",
-            scrollbarGutter: "stable"
+            // maxHeight: "100vh",
+            // // overflow: "hidden",
+            // scrollbarWidth: "4px",
+            // scrollbarGutter: "stable"
           }}
           className="sb-grid-container"
         >
@@ -58,6 +58,7 @@ export default function WatchlistEntries({ watchlistId, user }) {
                       paddingRight: "0 !important",
                       maxWidth: "5rem",
                     }}
+                    xs="content"
                   >
                     <button
                       className="sb-content-item-symbol"
@@ -78,7 +79,7 @@ export default function WatchlistEntries({ watchlistId, user }) {
                   </Col>
                   <Col xs="content" style={{ paddingRight: "none !important" }}>
                     <button className="btn-reg-clear" onClick={(e) => handleRemove(e, entry.id)}>
-                      remove 
+                      remove
                     </button>
                   </Col>
                 </Row>

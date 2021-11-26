@@ -6,6 +6,7 @@ import { setLastViewed } from "../../store/session";
 import PortCrud from "../PortCrud";
 import { getStockData } from "../../store/portData";
 import { loadPortfolios, removePortfolio, updatePortfolio } from "../../store/portfolios";
+import DeleteConfirmationModal from "../DeleteModal";
 
 export default function PortEntries({ portId, user }) {
   const dispatch = useDispatch();
@@ -97,7 +98,11 @@ export default function PortEntries({ portId, user }) {
           >
             edit
           </button>
-          <button className="btn-reg-clear" onClick={handleDelete}>delete</button>
+          {/* <button className="btn-reg-clear" onClick={handleDelete}>delete</button> */}
+          <DeleteConfirmationModal
+            deleteRequest={handleDelete}
+            resourceName={port.name}
+            />
         </div>
         {showModal && (
           <form className="sb-form-vertical" onSubmit={handleUpdate}>

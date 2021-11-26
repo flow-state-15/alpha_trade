@@ -1,4 +1,5 @@
 import { Modal } from "../../context/Modal";
+import DeleteConfirmationModal from "../DeleteModal";
 import {
   updateWatchlist,
   removeWatchlist,
@@ -7,7 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function CrudModal({ watchlistId, userId }) {
+export default function CrudModal({ watchlistId, userId, wlName }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -39,7 +40,11 @@ export default function CrudModal({ watchlistId, userId }) {
         >
           edit
         </button>
-        <button className="btn-reg-clear" onClick={handleDelete}>delete</button>
+        {/* <button className="btn-reg-clear" onClick={handleDelete}>delete</button> */}
+        <DeleteConfirmationModal
+            deleteRequest={handleDelete}
+            resourceName={wlName}
+            />
       </div>
       {showModal && (
         <form className="sb-form-vertical" onSubmit={handleSubmit}>

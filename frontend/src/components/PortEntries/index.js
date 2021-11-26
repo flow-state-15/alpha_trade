@@ -91,13 +91,13 @@ export default function PortEntries({ portId, user }) {
         <div className="sb-port-crud-wrapper">
         <div className="sb-port-btn-wrap">
           <button
-            className="switcher tipper"
+            className="btn-reg-clear"
             data-tip="edit"
             onClick={() => setShowModal(!showModal)}
           >
             edit
           </button>
-          <button onClick={handleDelete}>delete</button>
+          <button className="btn-reg-clear" onClick={handleDelete}>delete</button>
         </div>
         {showModal && (
           <form className="sb-form-vertical" onSubmit={handleUpdate}>
@@ -116,6 +116,7 @@ export default function PortEntries({ portId, user }) {
         )}
       </div>
       ) : null}
+      <div className="sb-port-item-wrap">
       {port?.portData ? Object.keys(port?.portData).length ? (
         Object.values(port?.portData).map((entry) => (
           <div
@@ -139,6 +140,7 @@ export default function PortEntries({ portId, user }) {
       ) : (
         <h2>No holdings in portfolio</h2>
       ) : <h2>select a portfolio</h2>}
+      </div>
     </div>
   );
 }

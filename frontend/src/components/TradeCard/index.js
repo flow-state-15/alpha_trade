@@ -225,8 +225,14 @@ export default function TradeCard({ portfolios, watchlists, user }) {
           </button>
         </form>
         <div className="wrapper-buy-sell-trade-card">
-          <div onClick={() => setTransType("buy")}>Buy</div>
-          <div onClick={() => setTransType("sell")}>Sell</div>
+          <div
+           className={(transType === "buy") ? "btn-buy-active" : "btn-buy-passive"}
+            onClick={() => setTransType("buy")}
+            >Buy</div>
+          <div
+           className={(transType === "sell") ? "btn-sell-active" : "btn-sell-passive"}
+            onClick={() => setTransType("sell")}
+            >Sell</div>
         </div>
         <div className="wrapper-trade-components">
           <form
@@ -244,12 +250,12 @@ export default function TradeCard({ portfolios, watchlists, user }) {
               <option value="select portfolio">select portfolio</option>
               {selectOptions}
             </select>
-            <label>ticker:</label>
+            {/* <label>ticker:</label>
             <input
               required
               value={ticker}
               onChange={(e) => setTicker(e.target.value.toUpperCase())}
-            />
+            /> */}
             <label>Shares</label>
             <input
               required

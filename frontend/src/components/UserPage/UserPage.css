@@ -23,7 +23,11 @@
 }
 
 
-.tv-widget {
+.btn-list-crud {
+    background-color: #EFEFEF;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 1rem;
 }
 
 article {

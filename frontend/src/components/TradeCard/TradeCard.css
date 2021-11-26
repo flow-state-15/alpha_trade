@@ -1,20 +1,21 @@
 .wrapper-trade-card {
-    border: 1px solid black;
+    border: 1px solid #D9DADB;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1rem 0;
     width: 30rem !important;
+    border-radius: 0.3rem;
 }
 
 .wrapper-buy-sell-trade-card {
     display: flex;
     justify-content: space-around;
-    border-top: 1px solid black;
+    border-top: 1px solid #D9DADB;
     width: 100%;
     font-size: 2.8rem;
     margin-top: 4rem;
-    padding: 2rem 0;
+    padding-bottom: 2rem;
 }
 
 .wrapper-amount-trade-card {
@@ -52,4 +53,40 @@
 
 .btn-getstockdata {
     margin-top: 3rem;
+}
+
+.btn-buy-active {
+    background-color: #89E289;
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+.btn-sell-active {
+    background-color: #F26D70;
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+.btn-sell-passive {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+.btn-buy-passive {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+.tradecard-add-to-wl-form input {
+    text-align: center;
+    width: 10rem !important;
+    padding: 0.3rem;
 }

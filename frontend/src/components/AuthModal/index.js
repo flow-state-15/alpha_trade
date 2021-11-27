@@ -32,7 +32,7 @@ export default function AuthModal() {
       const data = await res.json();
       if (data && data.errors) setErrors(data.errors);
     });
-    history.push(`/@profile/${fetchedUser.id}`);
+    if(fetchedUser?.id) history.push(`/@profile/${fetchedUser.id}`);
   };
 
   const handleSignup = async (e) => {
@@ -45,7 +45,7 @@ export default function AuthModal() {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
-      history.push(`/@profile/${fetchedUser.id}`);
+      if(fetchedUser?.id) history.push(`/@profile/${fetchedUser.id}`);
     }
     return setErrors(["Passwords must match"]);
   };

@@ -11,6 +11,7 @@ import LoginFormModal from "./components/LoginFormModal";
 import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UserPage from "./components/UserPage";
+import Footer from "./components/Footer";
 import "./App.css";
 import "./reset.css";
 
@@ -63,6 +64,7 @@ function App() {
           ></ProtectedRoute>
         </Switch>
       )}
+      <Footer />
     </div>
   );
 }

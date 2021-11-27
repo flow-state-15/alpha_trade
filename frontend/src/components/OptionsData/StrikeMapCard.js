@@ -70,26 +70,26 @@ export default function StrikeMapCard({ calls, puts, exp }) {
             </Row>
             <Row className="strike-map-header-row">
               <Col>intrinsic</Col>
-              <Col>volatility</Col>
-              <Col>open-i</Col>
-              <Col>volume</Col>
-              <Col>delta</Col>
-              <Col>net</Col>
-              <Col>%change</Col>
-              <Col>ask</Col>
               <Col>bid</Col>
+              <Col>ask</Col>
+              <Col>%change</Col>
+              <Col>net</Col>
+              <Col>delta</Col>
+              <Col>volume</Col>
+              <Col>open-i</Col>
+              <Col>volatility</Col>
             </Row>
             {Object.keys(puts).map((strike) => (
               <Row className={puts[strike][0].inTheMoney ? "strike-itm strike-map-data-row-hover" : "strike-otm strike-map-data-row-hover"} key={strike}>
                 <Col className="strike-map-item-col">{puts[strike][0].intrinsicValue}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].volatility}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].openInterest}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].totalVolume}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].delta}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].netChange}</Col>
-                <Col className="strike-map-item-col">{parseFloat(puts[strike][0].percentChange).toFixed(2)+"%"}</Col>
-                <Col className="strike-map-item-col">{puts[strike][0].ask}</Col>
                 <Col className="strike-map-item-col">{puts[strike][0].bid}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].ask}</Col>
+                <Col className="strike-map-item-col">{parseFloat(puts[strike][0].percentChange).toFixed(2)+"%"}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].netChange}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].delta}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].totalVolume}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].openInterest}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].volatility}</Col>
               </Row>
             ))}
           </Col>

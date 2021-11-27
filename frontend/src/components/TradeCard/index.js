@@ -200,7 +200,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             value={ticker}
           />
           <button
-            className="btn-reg-clear"
+            className={(ticker !== "") ? "btn-reg-clear" : "btn-add-to-wl-notval"}
             onClick={() => setToggleAdd(!toggleAdd)}
             disabled={ticker === ""}
           >
@@ -277,7 +277,8 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             <div>Est. price: {formatter.format(findPrice(shares, price))}</div>
             <button
               type="submit"
-              disabled={selectedOption === "select portfolio"}
+              disabled={selectedOption === "select portfolio" || ticker === "" || shares === "" || price === ""}
+              className='btn-submit-order'
             >
               Submit Order
             </button>

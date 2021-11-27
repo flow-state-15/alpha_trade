@@ -30,9 +30,9 @@
 }
 
 .nav-bar-buttons:hover {
-  box-shadow: 0 1rem 1.8rem 0.2rem rgba(34, 34, 34, 0.26);
+  box-shadow: 0 4px 1.8rem 1px rgba(34, 34, 34, 0.26);
   transition-duration: 250ms;
-  color: cornflowerblue;
+  color: blue;
 }
 
 .home-icon-container {
@@ -48,5 +48,3 @@
 .logo-text {
     text-decoration: none;
 }
-
-

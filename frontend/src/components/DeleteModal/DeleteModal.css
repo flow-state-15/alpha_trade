@@ -1,0 +1,52 @@
+.confirm-delete-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-size: 2rem;
+  font-family: "Whitney Semibold Regular";
+  align-items: center;
+  border-radius: 2rem;
+}
+
+.delete-yes-no {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  width: 100%;
+}
+
+.delete-yes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-family: "Whitney Semibold Regular";
+}
+
+.delete-no {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-family: "Whitney Semibold Regular";
+}
+
+.delete-no:hover {
+  box-shadow: 0 1rem 1.8rem 0.2rem rgba(34, 34, 34, 0.26);
+  transition-duration: 250ms;
+  color: cornflowerblue;
+}
+
+.delete-yes:hover {
+  box-shadow: 0 1rem 1.8rem 0.2rem rgba(34, 34, 34, 0.26);
+  transition-duration: 250ms;
+  color: red;
+}

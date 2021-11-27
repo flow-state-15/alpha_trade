@@ -1,0 +1,79 @@
+.auth-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem;
+    font-family: "Whitney Semibold Regular";
+    font-size: 1.5rem;
+    color: #313030;
+}
+
+.auth-modal-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 35rem;
+}
+
+.auth-modal-wrapper form input {
+    padding-left: 0.5rem;
+    text-align: left !important;
+    border-radius: 0.5rem;
+    height: 3rem;
+    border: 1px solid #D9DADB;
+}
+
+.auth-modal-wrapper form label {
+    /* font-family: "Whitney Semibold Regular"; */
+    font-family: "Whitney Bold";
+    letter-spacing: 0.04rem;
+    color: #313030;
+}
+
+.auth-toggle-phrase-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: "Whitney Semibold Regular";
+    letter-spacing: 0.04rem;
+    font-size: 1.5rem;
+}
+
+.auth-toggle-phrase-wrap span {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.line-box-wrap {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5rem;
+}
+
+.line-box-wrap div {
+    height: 1rem;
+    width: 7.6rem;
+    border-bottom: 1px solid black;
+    margin: 0 1.5rem;
+    bottom: 50%;
+}
+
+.btn-auth-demo {
+    width: 100% !important;
+    border-radius: 0.7rem !important;
+    background-color: lightgray;
+}
+
+.auth-modal-wrapper form ul {
+    list-style: none !important;
+}
+
+.btn-auth-toggle {
+    margin: 1rem 0;
+    padding: none !important;
+    border: none;
+    background-color: white;
+    color: blue;
+    cursor: pointer;
+}

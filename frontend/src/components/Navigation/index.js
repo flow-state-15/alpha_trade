@@ -9,6 +9,7 @@ import {
 import { login, logout, restoreUser } from "../../store/session";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
+import AuthModal from "../AuthModal";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -95,7 +96,7 @@ function Navigation({ isLoaded }) {
               <button className="nav-bar-buttons" onClick={dispatchDemoLogin}>
                 Demo User
               </button>
-              <button
+              {/* <button
                 className="nav-bar-buttons"
                 onClick={() => loginClick()}
                 exact={true}
@@ -110,7 +111,8 @@ function Navigation({ isLoaded }) {
                 activeClassName="active"
               >
                 Sign Up
-              </button>
+              </button> */}
+              <AuthModal />
             </div>
           )}
         </div>

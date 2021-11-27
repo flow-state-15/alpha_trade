@@ -18,8 +18,8 @@
     height: 61rem;
     overflow: hidden;
     scrollbar-gutter: stable;
-    direction: rtl;
-    padding-right: 1.5rem;
+    /* direction: rtl; */
+    padding-left: 1.5rem;
 }
 
 .sb-wl-slct-crud-wrap {

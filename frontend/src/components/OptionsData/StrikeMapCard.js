@@ -14,7 +14,7 @@ export default function StrikeMapCard({ calls, puts, exp }) {
 
   console.log(calls, puts, exp);
   return (
-    <div className="strike-map-card-wrap">
+    <div className="strike-map-card-wrap" style={{backgroundColor: "white"}}>
       <div
         className="strike-date-wrap"
         onClick={(e) => setToggle(!toggle)}
@@ -28,28 +28,28 @@ export default function StrikeMapCard({ calls, puts, exp }) {
             <Row>
               <Col className="opt-data-col">CALLS</Col>
             </Row>
-            <Row>
-              <Col>symbol</Col>
+            <Row className="strike-map-header-row">
               <Col>volatility</Col>
-              <Col>openInterest</Col>
-              <Col>totalVolume</Col>
+              <Col>open-i</Col>
+              <Col>volume</Col>
               <Col>delta</Col>
-              <Col>netChange</Col>
-              <Col>percentChange</Col>
+              <Col>net</Col>
+              <Col>%change</Col>
               <Col>ask</Col>
               <Col>bid</Col>
+              <Col>intrinsic</Col>
             </Row>
             {Object.keys(calls).map((strike) => (
-              <Row key={strike}>
-                <Col>{calls[strike][0].symbol}</Col>
-                <Col>{calls[strike][0].volatility}</Col>
-                <Col>{calls[strike][0].openInterest}</Col>
-                <Col>{calls[strike][0].totalVolume}</Col>
-                <Col>{calls[strike][0].delta}</Col>
-                <Col>{calls[strike][0].netChange}</Col>
-                <Col>{calls[strike][0].percentChange}</Col>
-                <Col>{calls[strike][0].ask}</Col>
-                <Col>{calls[strike][0].bid}</Col>
+              <Row className={calls[strike][0].inTheMoney ? "strike-itm strike-map-data-row-hover" : "strike-otm strike-map-data-row-hover"} key={strike}>
+                <Col className="strike-map-item-col">{calls[strike][0].volatility}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].openInterest}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].totalVolume}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].delta}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].netChange}</Col>
+                <Col className="strike-map-item-col">{parseFloat(calls[strike][0].percentChange).toFixed(2)+"%"}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].ask}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].bid}</Col>
+                <Col className="strike-map-item-col">{calls[strike][0].intrinsicValue}</Col>
               </Row>
             ))}
           </Col>
@@ -59,7 +59,7 @@ export default function StrikeMapCard({ calls, puts, exp }) {
             </Row>
             <br />
             {Object.keys(calls).map((strike) => (
-              <Row key={strike}>
+              <Row className="strike-map-item-col" key={strike}>
                 <Col>{strike}</Col>
               </Row>
             ))}
@@ -68,28 +68,28 @@ export default function StrikeMapCard({ calls, puts, exp }) {
             <Row>
               <Col className="opt-data-col">PUTS</Col>
             </Row>
-            <Row>
-              <Col>symbol</Col>
+            <Row className="strike-map-header-row">
+              <Col>intrinsic</Col>
               <Col>volatility</Col>
-              <Col>openInterest</Col>
-              <Col>totalVolume</Col>
+              <Col>open-i</Col>
+              <Col>volume</Col>
               <Col>delta</Col>
-              <Col>netChange</Col>
-              <Col>percentChange</Col>
+              <Col>net</Col>
+              <Col>%change</Col>
               <Col>ask</Col>
               <Col>bid</Col>
             </Row>
             {Object.keys(puts).map((strike) => (
-              <Row key={strike}>
-                <Col>{puts[strike][0].symbol}</Col>
-                <Col>{puts[strike][0].volatility}</Col>
-                <Col>{puts[strike][0].openInterest}</Col>
-                <Col>{puts[strike][0].totalVolume}</Col>
-                <Col>{puts[strike][0].delta}</Col>
-                <Col>{puts[strike][0].netChange}</Col>
-                <Col>{puts[strike][0].percentChange}</Col>
-                <Col>{puts[strike][0].ask}</Col>
-                <Col>{puts[strike][0].bid}</Col>
+              <Row className={puts[strike][0].inTheMoney ? "strike-itm strike-map-data-row-hover" : "strike-otm strike-map-data-row-hover"} key={strike}>
+                <Col className="strike-map-item-col">{puts[strike][0].intrinsicValue}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].volatility}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].openInterest}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].totalVolume}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].delta}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].netChange}</Col>
+                <Col className="strike-map-item-col">{parseFloat(puts[strike][0].percentChange).toFixed(2)+"%"}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].ask}</Col>
+                <Col className="strike-map-item-col">{puts[strike][0].bid}</Col>
               </Row>
             ))}
           </Col>

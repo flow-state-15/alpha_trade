@@ -10,10 +10,12 @@
 
 .opt-data-col {
   text-align: center;
+  font-size: 1.3rem;
 }
 
 .strike-map-card-wrap {
   width: 100%;
+  background-color: white;
 }
 
 .strike-date-wrap {
@@ -46,4 +48,34 @@
 .data-underlying-col-header {
     padding: 1rem 0;
     font-size: 1.5rem;
+}
+
+.strike-itm {
+  background-color: white;
+}
+
+.strike-otm {
+  /* background-color: #F5F5F5; */
+}
+
+.strike-map-header-row {
+  border-bottom: 1px solid #C0C0C0;
+  font-size: 1.2rem;
+  text-align: center;
+  /* overflow-wrap: break-word; */
+  /* text-align: center; */
+}
+
+.strike-map-item-col {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.strike-map-data-row-hover {
+  transition-property: background-color;
+  transition-duration: 100ms;
+}
+
+.strike-map-data-row-hover:hover {
+  background-color: #edf5fb;
 }

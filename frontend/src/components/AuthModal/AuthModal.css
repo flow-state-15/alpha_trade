@@ -68,6 +68,7 @@
 .auth-modal-wrapper form ul {
     text-align: center;
     list-style: none !important;
+    font-size: 1.5rem;
     color: red;
 }
 

@@ -9,6 +9,11 @@ export default function OptionsData({ user }) {
   const [data, setData] = useState(false);
   const [error, setError] = useState([]);
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   useEffect(() => {
     (async () => {
       if (user.lastViewedSym) {
@@ -93,15 +98,15 @@ export default function OptionsData({ user }) {
                 <Col className="opt-data-col">% change</Col>
                 <Col className="opt-data-col">net change</Col>
               </Row>
-              <Row>
-                <Col className="opt-data-col">{data.underlying.totalVolume}</Col>
-                <Col className="opt-data-col">{data.underlying.fiftyTwoWeekHigh}</Col>
-                <Col className="opt-data-col">{data.underlying.fiftyTwoWeekLow}</Col>
-                <Col className="opt-data-col">{data.underlying.last}</Col>
-                <Col className="opt-data-col">{data.underlying.ask}</Col>
-                <Col className="opt-data-col">{data.underlying.bid}</Col>
-                <Col className="opt-data-col">{data.underlying.percentChange}</Col>
-                <Col className="opt-data-col">{data.underlying.change}</Col>
+              <Row style={{color: "blue"}}>
+                <Col className="opt-data-col">{data.underlying.totalVolume.toLocaleString()}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.fiftyTwoWeekHigh)}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.fiftyTwoWeekLow)}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.last)}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.ask)}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.bid)}</Col>
+                <Col className="opt-data-col">{parseFloat(data.underlying.percentChange).toFixed(2)+"%"}</Col>
+                <Col className="opt-data-col">{formatter.format(data.underlying.change)}</Col>
               </Row>
             </Col>
           </Row>

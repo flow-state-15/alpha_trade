@@ -18,7 +18,7 @@ In the root, run
 
 ```npm start```
 
-You'll need another terminal to open to the root of /frontend, and run
+You'll need another terminal open to the root of /frontend, and run
 
 ```npm start```
 

@@ -11,6 +11,7 @@ module.exports = {
       watchlistId: {
         allowNull: false,
         references: { model: "Watchlists" },
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER
       },
       symbol: {

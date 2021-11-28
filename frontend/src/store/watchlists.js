@@ -20,24 +20,26 @@ const remove = (watchlistId) => ({
 });
 
 export const loadWatchlists = (userId) => async (dispatch) => {
-  const response = await fetch(`/api/watchlists/${userId}`);
+  if (userId) {
+    const response = await fetch(`/api/watchlists/${userId}`);
 
-
-  if (response.ok) {
+    if (response.ok) {
       const { watchlists } = await response.json();
 
-      const normalize = {}
-      for(let i = 0; i < watchlists.length; ++i){
-        const included = {}
-        for(let j = 0; j < watchlists[i].WatchlistEntries.length; ++j){
-          included[watchlists[i].WatchlistEntries[j].id] = watchlists[i].WatchlistEntries[j];
+      const normalize = {};
+      for (let i = 0; i < watchlists.length; ++i) {
+        const included = {};
+        for (let j = 0; j < watchlists[i].WatchlistEntries.length; ++j) {
+          included[watchlists[i].WatchlistEntries[j].id] =
+            watchlists[i].WatchlistEntries[j];
         }
         normalize[watchlists[i].id] = watchlists[i];
         normalize[watchlists[i].id]["WatchlistEntries"] = included;
       }
 
-    dispatch(load(watchlists));
-    return watchlists
+      dispatch(load(watchlists));
+      return watchlists;
+    }
   }
 };
 
@@ -58,31 +60,35 @@ export const addWatchlist = (formData) => async (dispatch) => {
 };
 
 export const updateWatchlist = (formData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/watchlists/${formData.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
+  if (formData.id) {
+    const response = await csrfFetch(`/api/watchlists/${formData.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-  if (response.ok) {
-    const watchlist = await response.json();
-    dispatch(add(watchlist));
+    if (response.ok) {
+      const watchlist = await response.json();
+      dispatch(add(watchlist));
+    }
   }
 };
 
 export const removeWatchlist = (watchlistId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  if (watchlistId) {
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  if (response.ok) {
-    const watchlist = await response.json();
-    dispatch(remove(watchlistId));
+    if (response.ok) {
+      const watchlist = await response.json();
+      dispatch(remove(watchlistId));
+    }
   }
 };
 
@@ -102,19 +108,23 @@ export const addWatchlistSymbol = (form) => async (dispatch) => {
   }
 };
 
-export const removeWatchlistSymbol = (watchlistId, entryId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/watchlists/deleteSymbol/${watchlistId}/${entryId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export const removeWatchlistSymbol =
+  (watchlistId, entryId) => async (dispatch) => {
+    const response = await csrfFetch(
+      `/api/watchlists/deleteSymbol/${watchlistId}/${entryId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  if (response.ok) {
-    const watchlist = await response.json();
-    dispatch(add(watchlist));
-  }
-};
+    if (response.ok) {
+      const watchlist = await response.json();
+      dispatch(add(watchlist));
+    }
+  };
 
 const watchlistReducer = (state = {}, action) => {
   switch (action.type) {

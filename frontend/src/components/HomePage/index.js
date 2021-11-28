@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { login, logout, restoreUser } from "../../store/session";
+import AuthModalHome from "../AuthModalHome";
 
 export default function HomePage() {
   const history = useHistory();
@@ -33,8 +34,6 @@ export default function HomePage() {
     if (user) {
       await dispatch(restoreUser());
       history.push("/@profile/:userId");
-    } else {
-      history.push("/login");
     }
   };
 
@@ -51,9 +50,13 @@ export default function HomePage() {
         </p>
       </div>
       </div>
-      <button className="nav-bar-buttons home-buttons" onClick={enterApp}>
+      {user ? (
+        <button className="nav-bar-buttons home-buttons" onClick={enterApp}>
         Enter AlphaTrade
       </button>
+      ) : (
+        <AuthModalHome />
+      )}
     </div>
   );
 }

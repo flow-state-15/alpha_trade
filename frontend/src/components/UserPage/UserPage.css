@@ -1,7 +1,7 @@
 
 
 .userpage-container {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     display: flex;
     gap: 1rem;
     padding: 0 1rem;

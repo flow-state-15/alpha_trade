@@ -24,8 +24,6 @@ export default function UserPage() {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
 
-  // console.log(wlName)
-
   useEffect(() => {
     if(location.pathname !== "/"){
       (async () => {
@@ -42,8 +40,6 @@ export default function UserPage() {
       </option>
     );
   });
-
-  // console.log(selectOptions)
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -32,10 +32,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     setTicker(user.lastViewedSym);
   }, [user]);
 
-  // useEffect(() => {
-  //   console.log(transType)
-  // }, [transType])
-
   const selectOptions = Object.values(portfolios).map((port) => {
     return (
       <option key={port.id} value={port.id}>
@@ -73,7 +69,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         amount: amount,
         symbol: ticker.toUpperCase(),
       };
-      // console.log("in handleTransaction, port >> action", portfolio, action)
       await dispatch(portTransaction(action));
       const portUpdate = {
         ...portfolio,
@@ -96,14 +91,12 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         amount: newAmount,
         symbol: ticker.toUpperCase(),
       };
-      console.log("in handleTransaction, port >> action", portfolio, action);
       await dispatch(portTransaction(action));
       const portUpdate = {
         id: portfolio.id,
         currentFunds:
           parseInt(portfolio.currentFunds) + parseInt(findPrice(price, shares)),
       };
-      console.log("logging portUpdate, currentfunds: ", portUpdate);
       await dispatch(updatePortfolio(portUpdate));
       dispatch(loadPortfolios(user.id));
       setShares("");
@@ -115,19 +108,16 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   };
 
   const portsClick = () => {
-    console.log(getOptionsChain);
     dispatch(getOptionsChain({ symbol: ticker }));
   };
 
   const handleGetData = async (e) => {
     e.preventDefault();
-    // console.log("in handle click, LV: ", LV)
     const update = {
       ...user,
       lastViewedSym: ticker.toUpperCase(),
     };
     await dispatch(setLastViewed(update));
-    // console.log("updated user : ", user)
   };
 
   const wlSelectList = Object.values(allWatchlists).map((wl) => {
@@ -160,7 +150,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("in addToWL, response:: ", data);
           setToggleAdd(false);
           if (Object.keys(data).length == 0) {
             setError("Invalid symbol");
@@ -244,7 +233,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
               value={selectedOption}
               onChange={(e) => {
                 setSelectedOption(e.target.value);
-                console.log(selectedOption, e.target.value);
               }}
             >
               <option value="select portfolio">select portfolio</option>

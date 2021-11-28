@@ -28,7 +28,6 @@ export const getOptionsChain = (formData) => async (dispatch) => {
   });
   if (response.ok) {
     const data = await response.json();
-    console.log("in getOptionsChain thunk, data:", data)
     return data;
   }
 };

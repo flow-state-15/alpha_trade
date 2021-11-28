@@ -12,7 +12,6 @@ export default function StrikeMapCard({ calls, puts, exp }) {
   };
   const date = new Date(rawDate);
 
-  console.log(calls, puts, exp);
   return (
     <div className="strike-map-card-wrap" style={{backgroundColor: "white"}}>
       <div

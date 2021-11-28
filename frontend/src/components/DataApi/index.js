@@ -6,27 +6,12 @@ export default function DataApi({ symbol }) {
   const [data, setData] = useState();
   const [ticker, setTicker] = useState();
 
-//   useEffect(() => {
-//     const fetchData = async (ticker) => {
-//       const res = await fetch(
-//         `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker.toUpperCase()}&apikey=KG1DSU6ADWQ53PPV`
-//       );
-//       if (res.statusCode === 200) {
-//         console.log("\n FETCH CLICKED", res);
-//         return res["Global Quote"];
-//       } else {
-//         return <h1>something went wrong with the data</h1>;
-//       }
-//     };
-//   }, [symbol]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const res = await fetch(
         `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker.toUpperCase()}&apikey=KG1DSU6ADWQ53PPV`
         );
-    console.log("\n form submit", res.body);
     // if (res.statusCode === 200) {
     //   return res["Global Quote"];
     // } else {
@@ -44,7 +29,7 @@ export default function DataApi({ symbol }) {
           console.log(dataObj);
           return reader.read().then(process);
         }).then(() => {
-          console.log('All done!');
+          // console.log('All done!');
         });
       });
 

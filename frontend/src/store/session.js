@@ -28,7 +28,6 @@ export const setLastViewed = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  // console.log("\n\n data: ", data, "\n\n");
   await dispatch(setUser(data.user));
   return response;
 };
@@ -51,7 +50,6 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  console.log("\n\n user: ", user, "\n\n");
   dispatch(setUser(data.user));
   return data.user;
 };

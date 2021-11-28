@@ -36,8 +36,6 @@ export const loadWatchlists = (userId) => async (dispatch) => {
         normalize[watchlists[i].id]["WatchlistEntries"] = included;
       }
 
-      // console.log("\n\nIN wl LOAD THUNK, wl: ", normalize, "\n\n")
-
     dispatch(load(watchlists));
     return watchlists
   }
@@ -54,7 +52,6 @@ export const addWatchlist = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const watchlist = await response.json();
-    console.log("in addWL thunk, response:: ", watchlist)
     dispatch(add(watchlist));
     return watchlist;
   }
@@ -100,7 +97,6 @@ export const addWatchlistSymbol = (form) => async (dispatch) => {
 
   if (response.ok) {
     const watchlist = await response.json();
-    console.log("in addWL thunk, response:: ", watchlist)
     dispatch(add(watchlist));
     return watchlist;
   }

@@ -13,13 +13,11 @@ export default function WatchlistEntries({ watchlistId, user }) {
 
   useEffect(() => {
     (async (e) => {
-      // console.log("in handle click, LV: ", LV)
       const update = {
         ...user,
         lastViewedSym: LV.toUpperCase(),
       };
       await dispatch(setLastViewed(update));
-      // console.log("updated user : ", user)
     })();
   }, [LV]);
 

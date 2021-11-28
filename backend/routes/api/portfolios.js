@@ -36,16 +36,9 @@ router.get(
     const userId = req.params.userId;
     const portfolios = await Portfolio.findAll({
       where: { userId: userId },
-      // include: [{ model: PortfolioEntry }],
       raw: true,
       // nest: true,
     });
-
-    // console.log("\n\n", portfolios, "\n\n");
-
-    // return res.json({
-    //   portfolios,
-    // });
     let normalized = {};
     for (let port of portfolios) {
       const entries = await PortfolioEntry.findAll({
@@ -55,7 +48,6 @@ router.get(
       entries.forEach((entry) => {
         portList.push(entry.symbol);
       });
-      // console.log("\n\n portlist", portList, "\n\n");
       if (portList.length) {
         const data = await si.getStocksInfo(portList);
         updatedData = {};
@@ -70,17 +62,14 @@ router.get(
           portData: updatedData,
           value: portValue,
         };
-        // console.log("\n\n normalized 1", normalized, "\n\n");
         continue;
       } else {
         normalized[port.id] = {
           ...port,
           portData: {},
         };
-        // console.log("\n\n else normalized 2", normalized, "\n\n");
       }
     }
-    // console.log("\n\n final normalized", normalized, "\n\n");
 
     return res.json(normalized);
   })
@@ -104,7 +93,6 @@ router.put(
   "/:id",
   asyncHandler(async function (req, res) {
     const id = req.params.id;
-    // console.log("\n\n in put /:id, req.params.id, req body:", req.params.id, req.body, "\n\n")
     const port = await Portfolio.findByPk(id);
     await port.update(req.body);
     const updatedport = await Portfolio.findOne({
@@ -145,7 +133,6 @@ router.post(
           amount: req.body.amount,
         });
       }
-      // console.log("\n\n", found, "\n\n")
       const port = await Portfolio.findOne({
         where: { id: portId },
         include: [{ model: PortfolioEntry }],
@@ -187,7 +174,6 @@ router.get(
       const found = port.find((stk) => stk.symbol === stock.symbol);
       updatedData.push({ ...stock, amount: found.amount });
     });
-    console.log("\n\n", updatedData, "\n\n");
     return res.json(updatedData);
   })
 );
@@ -198,21 +184,12 @@ router.post(
   asyncHandler(async (req, res) => {
     const form = req.body;
 
-    console.log("\n\n in options route, form: ", form, "\n\n")
-
     const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${form.symbol}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL HTTP/1.1`)
 
     const data = await response.json()
 
-    // console.log("dispatched fetch to tdameritrade, data: ", data)
-
     return res.json(data);
   })
 );
-
-async function test() {
-  // const test = await si.getStocksInfo(stockList)
-  console.log("\n\n", test, "\n\n");
-}
 
 module.exports = router;

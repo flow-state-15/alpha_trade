@@ -45,7 +45,6 @@ export const loadPortfolios = (userId) => async (dispatch) => {
 };
 
 export const addPortfolio = (formData) => async (dispatch) => {
-  console.log("in addPortfolio", formData)
   const response = await csrfFetch("/api/portfolios/", {
     method: "POST",
     headers: {
@@ -72,7 +71,6 @@ export const updatePortfolio = (formData) => async (dispatch) => {
 
   if (response.ok) {
     const portfolio = await response.json();
-    console.log("in update portfolio thunk, portfolio: ",portfolio)
     // dispatch(add(portfolio));
   }
 };

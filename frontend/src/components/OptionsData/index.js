@@ -1,5 +1,4 @@
 import "./OptionsData.css";
-import OptionsFilter from "./OptionsFilter";
 import StrikeMapCard from "./StrikeMapCard";
 import { csrfFetch } from "../../store/csrf";
 import React, { useState, useEffect } from "react";
@@ -41,10 +40,6 @@ export default function OptionsData({ user }) {
     setError([]);
   }, [user]);
 
-  useEffect(() => {
-    console.log("DATA: ", data);
-  }, [data]);
-
   const getOptionsChain = async () => {
     if (user.lastViewedSym) {
       const reqData = {
@@ -68,13 +63,6 @@ export default function OptionsData({ user }) {
       setError(["please select a symbol"]);
     }
   };
-  console.log("data useState, data:", data);
-  // console.log("data strike array, data.callExpDateMap:", Object.values(data.callExpDateMap));
-
-  //   const getData = () => {
-  //     console.log(getOptionsChain)
-  //     dispatch(getOptionsChain({ symbol: user.lastViewedSym }));
-  //   };
 
   return (
     <div className="options-data-wrap">

@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./DropDownMenu.css";
 
 export default function DropDownMenu({ array, user, name }) {
@@ -17,17 +16,10 @@ export default function DropDownMenu({ array, user, name }) {
 
   return (
     <>
-      {/* <h1>hello</h1>
-      {array.map((watchlist) => (
-        <Link to={`/@profile/${user.id}/watchlists/${watchlist.id}`}>
-          {watchlist.name}
-        </Link>
-      ))} */}
       <div
         className="dd-active"
         onClick={() => {
           setToggle(!toggle);
-          // console.log(toggle, ddContent);
         }}
       >
         <div className='dd-name-wrapper'>

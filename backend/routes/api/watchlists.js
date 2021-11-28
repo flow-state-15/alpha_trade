@@ -19,19 +19,9 @@ router.get(
       where: { userId: userId },
       include: [{ model: WatchlistEntry }]
     });
-
-    // console.log("\n\n", watchlists, "\n\n");
-
     return res.json({
       watchlists,
     });
-
-    // const one = await Watchlist.findAll()
-    // console.log("\n\n", one, "\n\n");
-
-    // return res.json({
-    //   one,
-    // });
   })
 );
 
@@ -101,7 +91,6 @@ router.post(
       where: { id: form.watchlistId },
       include: [{ model: WatchlistEntry }]
     });
-    console.log("\n\n watchlist with new entry:: ",findwl,"\n\n")
     return res.json(findwl);
   })
 );

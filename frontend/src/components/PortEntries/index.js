@@ -1,9 +1,7 @@
 import "./PortEntries.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
 import { setLastViewed } from "../../store/session";
-import PortCrud from "../PortCrud";
 import { getStockData } from "../../store/portData";
 import { loadPortfolios, removePortfolio, updatePortfolio } from "../../store/portfolios";
 import DeleteConfirmationModal from "../DeleteModal";
@@ -14,12 +12,8 @@ export default function PortEntries({ portId, user }) {
   const portEntries = useSelector(
     (state) => state?.portfolios[portId]?.PortfolioEntries
   );
-  const portData = useSelector((state) => state?.portData);
-  const [portV, setPortV] = useState("loading...");
   const [showModal, setShowModal] = useState(false);
   const [editName, setEditName] = useState("");
-
-  // console.log("logging port in port entries",port)
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -28,11 +22,7 @@ export default function PortEntries({ portId, user }) {
 
   useEffect(() => {
     (async () => {
-      // console.log(portId, portEntries)
       await dispatch(loadPortfolios(user.id));
-      // if(Object.keys(port.portData).length){
-      //   setPortV(formatter.format(getPortValue()));
-      // }
     })();
   }, [portId]);
 
@@ -51,11 +41,7 @@ export default function PortEntries({ portId, user }) {
 
   const getPortValue = () => {
     let acc = 0;
-    console.log(
-      "Object.values(port.portData) ::",
-      port.portData,
-      Object.values(port.portData)
-    );
+    
     Object.values(port.portData).forEach((stock) => {
       acc += stock.ask * stock.amount;
     });

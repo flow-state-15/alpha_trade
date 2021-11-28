@@ -65,8 +65,6 @@ router.post(
     });
     const userQQQ = await Watchlist.create({ name: "QQQ", userId: user.id });
 
-    // console.log("\n\n in signup, new wl's and id's:", userSP100.id, userQQQ.id, userSP100, userQQQ, "\n\n");
-
     await WatchlistEntry.bulkCreate([
       {
         watchlistId: `${userSP100.id}`,
@@ -1098,7 +1096,6 @@ router.put(
 
     const foundUser = await User.findByPk(userId);
     await foundUser.update(user);
-    // console.log("\n\n foundUser: ", foundUser, "\n\n");
     return res.json({
       user: foundUser,
     });

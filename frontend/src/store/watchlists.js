@@ -21,25 +21,27 @@ const remove = (watchlistId) => ({
 
 export const loadWatchlists = (userId) => async (dispatch) => {
   if (userId) {
-    const response = await fetch(`/api/watchlists/${userId}`);
+    try {
+      const response = await fetch(`/api/watchlists/${userId}`);
 
-    if (response.ok) {
-      const { watchlists } = await response.json();
+      if (response.ok) {
+        const { watchlists } = await response.json();
 
-      const normalize = {};
-      for (let i = 0; i < watchlists.length; ++i) {
-        const included = {};
-        for (let j = 0; j < watchlists[i].WatchlistEntries.length; ++j) {
-          included[watchlists[i].WatchlistEntries[j].id] =
-            watchlists[i].WatchlistEntries[j];
+        const normalize = {};
+        for (let i = 0; i < watchlists.length; ++i) {
+          const included = {};
+          for (let j = 0; j < watchlists[i].WatchlistEntries.length; ++j) {
+            included[watchlists[i].WatchlistEntries[j].id] =
+              watchlists[i].WatchlistEntries[j];
+          }
+          normalize[watchlists[i].id] = watchlists[i];
+          normalize[watchlists[i].id]["WatchlistEntries"] = included;
         }
-        normalize[watchlists[i].id] = watchlists[i];
-        normalize[watchlists[i].id]["WatchlistEntries"] = included;
-      }
 
-      dispatch(load(watchlists));
-      return watchlists;
-    }
+        dispatch(load(watchlists));
+        return watchlists;
+      }
+    } catch {}
   }
 };
 

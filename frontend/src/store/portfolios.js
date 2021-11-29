@@ -21,26 +21,28 @@ const remove = (portfolioId) => ({
 
 export const loadPortfolios = (userId) => async (dispatch) => {
   if (userId) {
-    const response = await csrfFetch(`/api/portfolios/${userId}`);
+    try {
+      const response = await csrfFetch(`/api/portfolios/${userId}`);
 
-    if (response.ok) {
-      const portfolios = await response.json();
+      if (response.ok) {
+        const portfolios = await response.json();
 
-      // const normalize = {}
-      // for(let i = 0; i < portfolios.length; ++i){
-      //   const included = {}
-      //   for(let j = 0; j < portfolios[i].PortfolioEntries.length; ++j){
-      //     included[portfolios[i].PortfolioEntries[j].id] = portfolios[i].PortfolioEntries[j];
-      //   }
-      //   normalize[portfolios[i].id] = portfolios[i];
-      //   normalize[portfolios[i].id]["PortfolioEntries"] = included;
-      // }
+        // const normalize = {}
+        // for(let i = 0; i < portfolios.length; ++i){
+        //   const included = {}
+        //   for(let j = 0; j < portfolios[i].PortfolioEntries.length; ++j){
+        //     included[portfolios[i].PortfolioEntries[j].id] = portfolios[i].PortfolioEntries[j];
+        //   }
+        //   normalize[portfolios[i].id] = portfolios[i];
+        //   normalize[portfolios[i].id]["PortfolioEntries"] = included;
+        // }
 
-      // console.log("\n\nIN pt LOAD THUNK, pt: ", portfolios, "\n\n")
+        // console.log("\n\nIN pt LOAD THUNK, pt: ", portfolios, "\n\n")
 
-      dispatch(load(portfolios));
-      return portfolios;
-    }
+        dispatch(load(portfolios));
+        return portfolios;
+      }
+    } catch {}
   }
 };
 

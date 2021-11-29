@@ -11,7 +11,7 @@ export default function Footer() {
           environment. It should be used for data viewing purposes only and
           nothing on this site is to be interpreted as financial advice. All
           data is delayed and reliant upon external APIs. Trading real money is
-          risky and should only be done after preparation and understanding of
+          risky and should only be done after preparation for and understanding of
           its risks.
         </p>
       </div>

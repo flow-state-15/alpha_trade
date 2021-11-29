@@ -1,7 +1,7 @@
 import "./UserPage.css";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector, } from "react-redux";
-import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import TradingViewWidget, { Themes } from "react-tradingview-widget";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
@@ -23,13 +23,14 @@ export default function UserPage() {
   );
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if(location.pathname !== "/"){
+    if (location.pathname !== "/") {
       (async () => {
         dispatch(loadPortfolios(user.id));
         dispatch(loadWatchlists(user.id));
-      })()
+      })();
     }
   }, [dispatch, user]);
 
@@ -43,14 +44,19 @@ export default function UserPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newWL = {
-      name: name,
-      userId: user.id,
-    };
-    await dispatch(addWatchlist(newWL));
-    dispatch(loadWatchlists(user.id));
-    await setName("");
-    setShowForm(false)
+    if (name.length > 20) {
+      setError("Name too long");
+    } else {
+      setError(false);
+      const newWL = {
+        name: name,
+        userId: user.id,
+      };
+      await dispatch(addWatchlist(newWL));
+      dispatch(loadWatchlists(user.id));
+      await setName("");
+      setShowForm(false);
+    }
   };
 
   // const sbPorts = Object.values
@@ -94,6 +100,19 @@ export default function UserPage() {
         </button>
         {showForm && (
           <form className="sb-form-vertical" onSubmit={handleSubmit}>
+            <ul>
+              {error ? (
+                <li
+                  style={{
+                    color: "red",
+                    listStyleType: "none",
+                    fontSize: "1.4rem",
+                  }}
+                >
+                  {"Error:  " + error}
+                </li>
+              ) : null}
+            </ul>
             <input
               required
               value={name}

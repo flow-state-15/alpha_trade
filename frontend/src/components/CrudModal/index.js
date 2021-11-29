@@ -12,18 +12,24 @@ export default function CrudModal({ watchlistId, userId, wlName }) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const update = {
-      id: watchlistId,
-      name: name,
-      userId: e.target.value,
-    };
-    await dispatch(updateWatchlist(update));
-    await dispatch(loadWatchlists(userId));
-    setName("");
-    setShowModal(false);
+    if (name.length > 20) {
+      setError("Name too long");
+    } else {
+      setError(false);
+      const update = {
+        id: watchlistId,
+        name: name,
+        userId: e.target.value,
+      };
+      await dispatch(updateWatchlist(update));
+      await dispatch(loadWatchlists(userId));
+      setName("");
+      setShowModal(false);
+    }
   };
 
   const handleDelete = async (e) => {
@@ -42,12 +48,25 @@ export default function CrudModal({ watchlistId, userId, wlName }) {
         </button>
         {/* <button className="btn-reg-clear" onClick={handleDelete}>delete</button> */}
         <DeleteConfirmationModal
-            deleteRequest={handleDelete}
-            resourceName={wlName}
-            />
+          deleteRequest={handleDelete}
+          resourceName={wlName}
+        />
       </div>
       {showModal && (
         <form className="sb-form-vertical" onSubmit={handleSubmit}>
+          <ul>
+            {error ? (
+              <li
+                style={{
+                  color: "red",
+                  listStyleType: "none",
+                  fontSize: "1.4rem",
+                }}
+              >
+                {"Error:  " + error}
+              </li>
+            ) : null}
+          </ul>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}

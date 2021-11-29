@@ -4,6 +4,8 @@ AlphaTrade was bootstrapped from [Create React App](https://github.com/facebook/
 
 View the live site hosted on Heroku:  [alpha-trade.herokuapp.com](https://alpha-trade.herokuapp.com/).
 
+Please note AlphaTrade is best viewed at 1080p resolution.
+
 ![Splash_Page](https://raw.githubusercontent.com/flow-state-15/alpha_trade/main/resources/screenshots/splash_page.PNG)
 
 AlphaTrade was designed be a quick and simple trading app where you can experience the feel of trading without having to worry about Know Your Customer rules imposed upon brokers by the SEC. It is a purely simulated environment where where no data other than user information and list data is stored server side.

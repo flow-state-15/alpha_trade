@@ -42,4 +42,18 @@ This was by design, as AlphaTrade was not meant to be a single resource for all 
 
 ![Option_Chain](https://raw.githubusercontent.com/flow-state-15/alpha_trade/main/resources/screenshots/option_chain.PNG)
 
+## Technologies Implemented
+* NodeJS
+* ExpressJS
+* React
+* Redux
+* PostgreSQL
+* Sequelize ORM
+* HTML/CSS
+* Python
+* Javascript
+* SQL
+
+***
+
 I have a passion for trading stock options vs just the stock itself, and while there are pros and cons to going that route, there is better alpha potential as well. But as always, I must remind users that nothing in this project is to be taken as financial advice, and one should be well aware of trading risks when delving into the fascinating world of finance. Thank you for exploring AlphaTrade!

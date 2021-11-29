@@ -26,7 +26,7 @@ Please be aware that cloning this app will cause many features to break as half 
 
 ## Feature List
 
-For a complete breakdown of user interaction and features, see [User Stories and Feature interaction]https://github.com/flow-state-15/alpha_trade/wiki/User-Stories-and-Feature-interaction.
+For a complete breakdown of user interaction and features, see [User Stories and Feature interaction](https://github.com/flow-state-15/alpha_trade/wiki/User-Stories-and-Feature-interaction).
 
 This app is a single page app for now, but more features like news feeds for your portfolios are in the works. Options strategies are planned as well.
 

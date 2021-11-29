@@ -117,10 +117,15 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       setShares("");
       setPrice("");
       setError("");
-    } else if (!Number.isInteger(shares) || !Number.isInteger(price)){
-      setError("Invalid data!");
-    } else {
+    } else if (
+      (transType === "sell" &&
+        portfolio.portData.hasOwnProperty(ticker) &&
+        portfolio.portData[ticker].amount < shares) ||
+      (transType === "sell" && !portfolio.portData.hasOwnProperty(ticker))
+    ) {
       setError("short selling is currently unavailable");
+    } else if (!Number.isInteger(shares) || !Number.isInteger(price)) {
+      setError("Invalid data!");
     }
   };
 
@@ -149,7 +154,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         lastViewedSym: ticker.toUpperCase(),
       };
       await dispatch(setLastViewed(update));
-      setError("")
+      setError("");
     }
   };
 

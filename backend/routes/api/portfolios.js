@@ -58,16 +58,38 @@ router.get(
 
         // const data = await response.json();
 
-        const data = await si.getStocksInfo(portList);
+        const raw = await fetch(`https://api.tdameritrade.com/v1/marketdata/quotes?apikey=${process.env.API_KEY}&symbol=${portList.join("%2C")}`)
+
+        const data = await raw.json()
+
+        // console.log("\n\n", data2, "\n\n")
+
+        //TARGET STRING
+        //GET /v1/marketdata/quotes?apikey=BJDNAR7ED5LBI0PB7IRJOAJ8PSWKZWZY&symbol=BAC_041422C42%2CBAC_041422C50%2CBAC_041422C45%2C%2C HTTP/1.1
+
+        // let symString = ""
+        // portList.forEach((el,idx) => {
+        //   if(idx === portList.length - 1) {
+        //     symString += el
+        //   } else {
+        //     symString += el + "%2C"
+        //   }
+
+        // })
+
+
+
+        // const data = await si.getStocksInfo(portList);
+
         updatedData = {};
 
-        data.map((stock) => {
+        Object.values(data).forEach((stock) => {
           const found = entries.find((stk) => stk.symbol === stock.symbol);
           updatedData[stock.symbol] = { ...stock, amount: found.amount };
         });
         let portValue = 0;
         Object.values(updatedData).forEach(
-          (obj) => (portValue += parseInt(obj.ask) * parseInt(obj.amount))
+          (obj) => (portValue += parseInt(obj.mark) * parseInt(obj.amount))
         );
         normalized[port.id] = {
           ...port,
@@ -79,6 +101,7 @@ router.get(
         normalized[port.id] = {
           ...port,
           portData: {},
+          value: portValue,
         };
       }
     }

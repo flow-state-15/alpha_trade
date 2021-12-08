@@ -10,6 +10,7 @@ export default function TradeConfirmModal({
   shares,
   handleTransaction,
   formatter,
+  error
 }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -21,7 +22,8 @@ export default function TradeConfirmModal({
                 selectedOption === "select portfolio" ||
                 ticker === "" ||
                 shares === "" ||
-                price === ""
+                price === "" ||
+                error !== ""
               }
               className="btn-submit-order"
               onClick={(e) => {

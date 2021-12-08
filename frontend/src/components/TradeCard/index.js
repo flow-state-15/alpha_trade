@@ -65,8 +65,10 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
     const data = await response.json();
 
-    if (Object.keys(data).length == 0) {
+    if (Object.values(data).length == 0) {
       setError("You can't trade an invalid symbol");
+    } else if (isNaN(shares) || isNaN(price)) {
+      setError("Invalid data!");
     } else if (
       type === "buy" &&
       portfolio.currentFunds < findPrice(price, shares)
@@ -76,7 +78,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       type === "buy" &&
       portfolio.currentFunds > findPrice(price, shares)
     ) {
-      console.log("in VALID BUY, handleTransaction function")
+      // console.log("in VALID BUY, handleTransaction function")
       let amount;
       if (!portfolio.portData[ticker]) {
         amount = parseInt(shares);
@@ -129,8 +131,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       (transType === "sell" && !portfolio.portData.hasOwnProperty(ticker))
     ) {
       setError("short selling is currently unavailable");
-    } else if (!Number.isInteger(shares) || !Number.isInteger(price)) {
-      setError("Invalid data!");
     }
   };
 
@@ -151,7 +151,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
     const data = await response.json();
 
-    if (Object.keys(data).length == 0) {
+    if (Object.values(data).length == 0) {
       setError("Invalid symbol!");
     } else {
 
@@ -214,25 +214,20 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   };
 
   useEffect(() => {
-    if (ticker === "") setError("");
-  }, [ticker]);
+    if (ticker === "") {
+      setError("");
+      setPrice("");
+      setShares("")
+    }
+    if (shares === "") setError("")
+    else if(isNaN(shares)) setError("You entered invalid data!");
+    else if(portfolio?.currentFunds && findPrice(shares, price) > portfolio.currentFunds) setError("Amount exceeds buying power")
+  }, [ticker, shares, price]);
 
   if (user) {
     return (
       <div className="wrapper-trade-card">
-        <ul>
-          {error ? (
-            <li
-              style={{
-                color: "red",
-                listStyleType: "none",
-                fontSize: "1.4rem",
-              }}
-            >
-              {"Error:  " + error}
-            </li>
-          ) : null}
-        </ul>
+
         <form className="tradecard-add-to-wl-form" onSubmit={handleGetData}>
           <label>ticker</label>
           <input
@@ -260,6 +255,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 {wlSelectList}
               </select>
               <button
+                type="button"
                 className="btn-reg-clear"
                 onClick={() => setToggleAdd(!toggleAdd)}
               >
@@ -317,11 +313,12 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             <label>Shares</label>
             <input
               required
-              value={shares}
+              value={(ticker === "") ? "" : shares}
               onChange={(e) => {
                 setShares(e.target.value);
                 setError("");
               }}
+              disabled={ticker === ""}
             />
             {/* <label>Price</label>
             <input
@@ -357,6 +354,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
               shares={shares}
               handleTransaction={handleTransaction}
               formatter={formatter}
+              error={error}
             />
             <div>
               {selectedOption !== "select portfolio" ? (
@@ -368,6 +366,19 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             </div>
           </form>
         </div>
+        <ul>
+          {error ? (
+            <li
+              style={{
+                color: "red",
+                listStyleType: "none",
+                fontSize: "1.4rem",
+              }}
+            >
+              {"Error:  " + error}
+            </li>
+          ) : null}
+        </ul>
       </div>
     );
   } else {

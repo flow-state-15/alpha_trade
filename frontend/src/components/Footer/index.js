@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="footer-logo-container">
           <h2>Github</h2>
           <a
-            href="https://github.com/flow-state-15/alpha_trade"
+            href="https://github.com/flow-state-15/"
             target="_blank"
             rel="noreferrer"
           >

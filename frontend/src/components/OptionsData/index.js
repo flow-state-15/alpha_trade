@@ -64,6 +64,8 @@ export default function OptionsData({ user }) {
     }
   };
 
+  console.log(data)
+
   return (
     <div className="options-data-wrap">
       {error.length && error.map((err) => <h3 key={err}>{err}</h3>)}

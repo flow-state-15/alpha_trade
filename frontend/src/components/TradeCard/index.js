@@ -10,6 +10,7 @@ import { getOptionsChain } from "../../store/portData";
 import { setLastViewed } from "../../store/session";
 import { csrfFetch } from "../../store/csrf";
 import { addWatchlistSymbol, loadWatchlists } from "../../store/watchlists";
+import TradeConfirmModal from "../TradeConfirmModal"
 
 export default function TradeCard({ portfolios, watchlists, user }) {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   const handleTransaction = async (e, type) => {
     e.preventDefault();
 
+    // console.log("in handleTransaction, type:: ", type)
+
     const response = await csrfFetch("/api/watchlists/checkSymbol/", {
       method: "POST",
       headers: {
@@ -62,8 +65,10 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
     const data = await response.json();
 
-    if (Object.keys(data).length == 0) {
+    if (Object.values(data).length == 0) {
       setError("You can't trade an invalid symbol");
+    } else if (isNaN(shares) || isNaN(price)) {
+      setError("Invalid data!");
     } else if (
       type === "buy" &&
       portfolio.currentFunds < findPrice(price, shares)
@@ -73,6 +78,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       type === "buy" &&
       portfolio.currentFunds > findPrice(price, shares)
     ) {
+      // console.log("in VALID BUY, handleTransaction function")
       let amount;
       if (!portfolio.portData[ticker]) {
         amount = parseInt(shares);
@@ -99,6 +105,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       portfolio.portData.hasOwnProperty(ticker) &&
       portfolio.portData[ticker].amount >= shares
     ) {
+      // console.log("in VALID SELL, handleTransaction function")
       const newAmount =
         parseInt(portfolio.portData[ticker].amount) - parseInt(shares);
       const action = {
@@ -124,8 +131,6 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       (transType === "sell" && !portfolio.portData.hasOwnProperty(ticker))
     ) {
       setError("short selling is currently unavailable");
-    } else if (!Number.isInteger(shares) || !Number.isInteger(price)) {
-      setError("Invalid data!");
     }
   };
 
@@ -146,14 +151,16 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
     const data = await response.json();
 
-    if (Object.keys(data).length == 0) {
+    if (Object.values(data).length == 0) {
       setError("Invalid symbol!");
     } else {
+
       const update = {
         ...user,
         lastViewedSym: ticker.toUpperCase(),
       };
       await dispatch(setLastViewed(update));
+      setPrice(data[ticker.toUpperCase()].mark)
       setError("");
     }
   };
@@ -207,25 +214,20 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   };
 
   useEffect(() => {
-    if (ticker === "") setError("");
-  }, [ticker]);
+    if (ticker === "") {
+      setError("");
+      setPrice("");
+      setShares("")
+    }
+    if (shares === "") setError("")
+    else if(isNaN(shares)) setError("You entered invalid data!");
+    else if(portfolio?.currentFunds && findPrice(shares, price) > portfolio.currentFunds) setError("Amount exceeds buying power")
+  }, [ticker, shares, price]);
 
   if (user) {
     return (
       <div className="wrapper-trade-card">
-        <ul>
-          {error ? (
-            <li
-              style={{
-                color: "red",
-                listStyleType: "none",
-                fontSize: "1.4rem",
-              }}
-            >
-              {"Error:  " + error}
-            </li>
-          ) : null}
-        </ul>
+
         <form className="tradecard-add-to-wl-form" onSubmit={handleGetData}>
           <label>ticker</label>
           <input
@@ -234,6 +236,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             value={ticker}
           />
           <button
+            type="button"
             className={ticker !== "" ? "btn-reg-clear" : "btn-add-to-wl-notval"}
             onClick={() => setToggleAdd(!toggleAdd)}
             disabled={ticker === ""}
@@ -252,6 +255,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 {wlSelectList}
               </select>
               <button
+                type="button"
                 className="btn-reg-clear"
                 onClick={() => setToggleAdd(!toggleAdd)}
               >
@@ -288,7 +292,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         <div className="wrapper-trade-components">
           <form
             className="wrapper-trade-form"
-            onSubmit={(e) => handleTransaction(e, transType)}
+            // onSubmit={(e) => handleTransaction(e, transType)}
           >
             <label>Select Portfolio</label>
             <select
@@ -309,13 +313,14 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             <label>Shares</label>
             <input
               required
-              value={shares}
+              value={(ticker === "") ? "" : shares}
               onChange={(e) => {
                 setShares(e.target.value);
                 setError("");
               }}
+              disabled={ticker === ""}
             />
-            <label>Price</label>
+            {/* <label>Price</label>
             <input
               required
               value={price}
@@ -323,10 +328,10 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 setPrice(e.target.value);
                 setError("");
               }}
-            />
-            <div>Est. price: {formatter.format(findPrice(shares, price))}</div>
-            <button
-              type="submit"
+            /> */}
+            <div className="est-price">Est. price: {formatter.format(findPrice(shares, price))}</div>
+            {/* <button
+              // type="submit"
               disabled={
                 selectedOption === "select portfolio" ||
                 ticker === "" ||
@@ -334,9 +339,23 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 price === ""
               }
               className="btn-submit-order"
+              onClick={e => {
+                e.preventDefault();
+                console.log("ORDER CLICKED")
+              }}
             >
               Submit Order
-            </button>
+            </button> */}
+            <TradeConfirmModal
+              price={price}
+              ticker={ticker}
+              selectedOption={selectedOption}
+              transType={transType}
+              shares={shares}
+              handleTransaction={handleTransaction}
+              formatter={formatter}
+              error={error}
+            />
             <div>
               {selectedOption !== "select portfolio" ? (
                 formatter.format(portfolio?.currentFunds) +
@@ -347,6 +366,19 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             </div>
           </form>
         </div>
+        <ul>
+          {error ? (
+            <li
+              style={{
+                color: "red",
+                listStyleType: "none",
+                fontSize: "1.4rem",
+              }}
+            >
+              {"Error:  " + error}
+            </li>
+          ) : null}
+        </ul>
       </div>
     );
   } else {

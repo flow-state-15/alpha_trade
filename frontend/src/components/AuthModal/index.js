@@ -81,7 +81,7 @@ export default function AuthModal() {
                 </ul>
                 <label>Email</label>
                 <input
-                  type="text"
+                  type="email"
                   value={credential}
                   onChange={(e) => setCredential(e.target.value)}
                   required
@@ -106,7 +106,7 @@ export default function AuthModal() {
                 </ul>
                 <label>Email</label>
                 <input
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

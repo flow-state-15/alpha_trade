@@ -141,7 +141,7 @@ export default function PortEntries({ portId, user }) {
       ) : null}
       <div className="sb-port-item-wrap">
         {port?.portData ? (
-          Object.keys(port?.portData).length ? (
+          Object.values(port?.portData).length ? (
             Object.values(port?.portData).map((entry) => (
               <div
                 className="sb-port-item-wrap"
@@ -153,10 +153,10 @@ export default function PortEntries({ portId, user }) {
                   <h3>{entry.amount}</h3>
                   <h3>{entry.symbol}</h3>
                   <h3 className="sb-port-item-symbol">
-                    {formatter.format(entry.ask)}
+                    {formatter.format(entry.mark)}
                   </h3>
                   <h3 className="sb-port-item-symbol">
-                    {parseFloat(entry.regularMarketChange).toFixed(2) + "%"}
+                    {parseFloat(entry.markPercentChangeInDouble).toFixed(2) + "%"}
                   </h3>
                 </div>
               </div>

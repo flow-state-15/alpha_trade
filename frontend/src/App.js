@@ -9,6 +9,7 @@ import HomePage from "./components/HomePage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UserPage from "./components/UserPage";
 import Footer from "./components/Footer";
+import Handle404 from "./components/Handle404"
 import "./App.css";
 import "./reset.css";
 
@@ -50,6 +51,7 @@ function App() {
             exact
             path="/@profile/:user_id/transactions"
           ></ProtectedRoute>
+          <Handle404 />
         </Switch>
       )}
       <Footer />

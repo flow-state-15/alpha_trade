@@ -45,7 +45,7 @@ function Navigation({ isLoaded }) {
   const enterApp = async () => {
     if (user) {
       await dispatch(restoreUser());
-      history.push("/@profile/:userId");
+      history.push(`/@profile/${user.id}`);
     } else {
       history.push("/login");
     }

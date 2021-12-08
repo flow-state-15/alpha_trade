@@ -53,7 +53,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   const handleTransaction = async (e, type) => {
     e.preventDefault();
 
-    console.log("in handleTransaction, type:: ", type)
+    // console.log("in handleTransaction, type:: ", type)
 
     const response = await csrfFetch("/api/watchlists/checkSymbol/", {
       method: "POST",
@@ -103,7 +103,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       portfolio.portData.hasOwnProperty(ticker) &&
       portfolio.portData[ticker].amount >= shares
     ) {
-      console.log("in VALID SELL, handleTransaction function")
+      // console.log("in VALID SELL, handleTransaction function")
       const newAmount =
         parseInt(portfolio.portData[ticker].amount) - parseInt(shares);
       const action = {
@@ -241,6 +241,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             value={ticker}
           />
           <button
+            type="button"
             className={ticker !== "" ? "btn-reg-clear" : "btn-add-to-wl-notval"}
             onClick={() => setToggleAdd(!toggleAdd)}
             disabled={ticker === ""}

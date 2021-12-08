@@ -10,6 +10,7 @@ import { getOptionsChain } from "../../store/portData";
 import { setLastViewed } from "../../store/session";
 import { csrfFetch } from "../../store/csrf";
 import { addWatchlistSymbol, loadWatchlists } from "../../store/watchlists";
+import TradeConfirmModal from "../TradeConfirmModal"
 
 export default function TradeCard({ portfolios, watchlists, user }) {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   const handleTransaction = async (e, type) => {
     e.preventDefault();
 
+    console.log("in handleTransaction, type:: ", type)
+
     const response = await csrfFetch("/api/watchlists/checkSymbol/", {
       method: "POST",
       headers: {
@@ -73,6 +76,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       type === "buy" &&
       portfolio.currentFunds > findPrice(price, shares)
     ) {
+      console.log("in VALID BUY, handleTransaction function")
       let amount;
       if (!portfolio.portData[ticker]) {
         amount = parseInt(shares);
@@ -99,6 +103,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
       portfolio.portData.hasOwnProperty(ticker) &&
       portfolio.portData[ticker].amount >= shares
     ) {
+      console.log("in VALID SELL, handleTransaction function")
       const newAmount =
         parseInt(portfolio.portData[ticker].amount) - parseInt(shares);
       const action = {
@@ -149,11 +154,13 @@ export default function TradeCard({ portfolios, watchlists, user }) {
     if (Object.keys(data).length == 0) {
       setError("Invalid symbol!");
     } else {
+
       const update = {
         ...user,
         lastViewedSym: ticker.toUpperCase(),
       };
       await dispatch(setLastViewed(update));
+      setPrice(data[ticker.toUpperCase()].mark)
       setError("");
     }
   };
@@ -288,7 +295,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         <div className="wrapper-trade-components">
           <form
             className="wrapper-trade-form"
-            onSubmit={(e) => handleTransaction(e, transType)}
+            // onSubmit={(e) => handleTransaction(e, transType)}
           >
             <label>Select Portfolio</label>
             <select
@@ -315,7 +322,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 setError("");
               }}
             />
-            <label>Price</label>
+            {/* <label>Price</label>
             <input
               required
               value={price}
@@ -323,10 +330,10 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 setPrice(e.target.value);
                 setError("");
               }}
-            />
-            <div>Est. price: {formatter.format(findPrice(shares, price))}</div>
-            <button
-              type="submit"
+            /> */}
+            <div className="est-price">Est. price: {formatter.format(findPrice(shares, price))}</div>
+            {/* <button
+              // type="submit"
               disabled={
                 selectedOption === "select portfolio" ||
                 ticker === "" ||
@@ -334,9 +341,22 @@ export default function TradeCard({ portfolios, watchlists, user }) {
                 price === ""
               }
               className="btn-submit-order"
+              onClick={e => {
+                e.preventDefault();
+                console.log("ORDER CLICKED")
+              }}
             >
               Submit Order
-            </button>
+            </button> */}
+            <TradeConfirmModal
+              price={price}
+              ticker={ticker}
+              selectedOption={selectedOption}
+              transType={transType}
+              shares={shares}
+              handleTransaction={handleTransaction}
+              formatter={formatter}
+            />
             <div>
               {selectedOption !== "select portfolio" ? (
                 formatter.format(portfolio?.currentFunds) +

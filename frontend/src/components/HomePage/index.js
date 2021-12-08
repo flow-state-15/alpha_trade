@@ -33,7 +33,7 @@ export default function HomePage() {
   const enterApp = async () => {
     if (user) {
       await dispatch(restoreUser());
-      history.push("/@profile/:userId");
+      history.push(`/@profile/${user.id}`);
     }
   };
 

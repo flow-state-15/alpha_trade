@@ -20,7 +20,7 @@ export default function DeleteConfirmationModal({
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <div className="confirm-delete-modal">
-            <p>{`Are you sure you wish to delete "${resourceName}"?`}</p>
+            <p>{`Warning: Are you sure you wish to delete "${resourceName}"? Data will be permanently lost.`}</p>
             <p></p>
             <div className="delete-yes-no">
               <button className="delete-no" onClick={() => setShowModal(false)}>

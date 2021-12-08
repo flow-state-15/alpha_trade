@@ -31,7 +31,9 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
   useEffect(() => {
     setTicker(user.lastViewedSym);
-  }, [user]);
+    setPrice("");
+    setShares("");
+  }, [user.lastViewedSym]);
 
   const selectOptions = Object.values(portfolios).map((port) => {
     return (

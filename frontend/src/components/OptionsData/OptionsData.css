@@ -80,3 +80,8 @@
 .strike-map-data-row-hover:hover {
   background-color: #edf5fb;
 }
+
+.contract-buy-sell {
+  color: blue;
+  /* cursor: pointer; */
+}

@@ -62,25 +62,6 @@ router.get(
 
         const data = await raw.json()
 
-        // console.log("\n\n", data2, "\n\n")
-
-        //TARGET STRING
-        //GET /v1/marketdata/quotes?apikey=BJDNAR7ED5LBI0PB7IRJOAJ8PSWKZWZY&symbol=BAC_041422C42%2CBAC_041422C50%2CBAC_041422C45%2C%2C HTTP/1.1
-
-        // let symString = ""
-        // portList.forEach((el,idx) => {
-        //   if(idx === portList.length - 1) {
-        //     symString += el
-        //   } else {
-        //     symString += el + "%2C"
-        //   }
-
-        // })
-
-
-
-        // const data = await si.getStocksInfo(portList);
-
         updatedData = {};
 
         Object.values(data).forEach((stock) => {

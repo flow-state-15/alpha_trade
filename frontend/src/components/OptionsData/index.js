@@ -64,7 +64,7 @@ export default function OptionsData({ user }) {
     }
   };
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <div className="options-data-wrap">

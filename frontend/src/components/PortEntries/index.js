@@ -155,7 +155,10 @@ export default function PortEntries({ portId, user }) {
                   <h3 className="sb-port-item-symbol">
                     {formatter.format(entry.mark)}
                   </h3>
-                  <h3 className="sb-port-item-symbol">
+                  <h3
+                    style={{color: (Math.sign(entry.markPercentChangeInDouble) === -1) ? "red" : 'green'}}
+                    className="sb-port-item-symbol"
+                  >
                     {parseFloat(entry.markPercentChangeInDouble).toFixed(2) + "%"}
                   </h3>
                 </div>

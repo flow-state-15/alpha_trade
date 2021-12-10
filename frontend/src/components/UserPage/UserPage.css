@@ -1,5 +1,8 @@
 
 
+/* #tradingview_8a9e7-wrapper */
+
+
 .userpage-container {
     /* overflow-y: scroll; */
     display: flex;
@@ -46,7 +49,13 @@ article {
 
 .tradingview-chart-container {
     /* padding-left: 50rem; */
+    /* width: 200rem !important; */
 }
+
+.tradingview-chart-container > article > div > div {
+    width: 51vw !important;
+}
+
 
 .sb-select-with-content-wrapper {
     margin-top: 3rem;

@@ -71,7 +71,7 @@ export default function UserPage() {
               className="tv-widget"
               symbol={user.lastViewedSym}
               // theme={Themes.DARK}
-              styles={{ width: "200rem !important" }}
+              styles={{ width: "100vw !important" }}
               hide-side-toolbar={false}
             />
           </div>

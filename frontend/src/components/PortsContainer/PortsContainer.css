@@ -12,10 +12,10 @@
     align-items: center;
     /* gap: 1rem; */
     margin-top: 3rem;
-    width: 25rem;
+    width: 22%;
     border: 1px solid #D9DADB;
     border-radius: 0.3rem;
-    height: 61rem;
+    height: 64rem;
     overflow: hidden;
     scrollbar-gutter: stable;
     /* direction: rtl; */

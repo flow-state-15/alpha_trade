@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UserPage from "./components/UserPage";
 import Footer from "./components/Footer";
 import Handle404 from "./components/Handle404"
+import TestBed from "./components/TestBed"
 import "./App.css";
 import "./reset.css";
 
@@ -51,6 +52,12 @@ function App() {
             exact
             path="/@profile/:user_id/transactions"
           ></ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/@testbed/comps/charts"
+          >
+            <TestBed />
+          </ProtectedRoute>
           <Handle404 />
         </Switch>
       )}

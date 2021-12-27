@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import TradingViewWidget, { Themes } from "react-tradingview-widget";
+import { AdvancedChart } from "react-tradingview-embed";
 import { loadPortfolios } from "../../store/portfolios";
 import { loadWatchlists } from "../../store/watchlists";
 import TradeCard from "../TradeCard";
@@ -67,13 +68,14 @@ export default function UserPage() {
       <div className="wrapper-userpage-chart-trade">
         <div className="userpage-chart-trade-card">
           <div className="tradingview-chart-container">
-            <TradingViewWidget
+            {/* <TradingViewWidget
               className="tv-widget"
               symbol={user.lastViewedSym}
               // theme={Themes.DARK}
               styles={{ width: "100vw !important" }}
               hide-side-toolbar={false}
-            />
+            /> */}
+            <AdvancedChart widgetProps={{theme: 'light', symbol: user.lastViewedSym}}  />;
           </div>
           <TradeCard
             portfolios={portfolios}

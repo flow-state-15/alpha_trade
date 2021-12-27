@@ -15,6 +15,7 @@
     flex-direction: column;
     gap: 1rem;
     align-items: center;
+    width: 100%;
 }
 
 .userpage-chart-trade-card {
@@ -23,6 +24,7 @@
     height: fit-content;
     padding-top: 3rem;
     justify-content: space-between;
+    width: 100%;
 }
 
 
@@ -50,11 +52,12 @@ article {
 .tradingview-chart-container {
     /* padding-left: 50rem; */
     /* width: 200rem !important; */
+    width: 100%;
 }
-
+/*
 .tradingview-chart-container > article > div > div {
     width: 51vw !important;
-}
+} */
 
 
 .sb-select-with-content-wrapper {

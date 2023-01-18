@@ -5,10 +5,9 @@ const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { Portfolio, PortfolioEntry } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-// const si = require("stock-info");
 const fetch = require("node-fetch");
 const { get_multiple, symbols_from_portfolios } = require("../../utils/td_api");
-// import fetch from 'node-fetch';
+const { userPortfolios } = require('../../controllers/portfolioController')
 
 const router = express.Router();
 
@@ -31,65 +30,7 @@ const router = express.Router();
 
 //ROUTE HANDLING
 //GET all portfolios
-router.get(
-  "/:userId",
-  asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
-    const portfolios = await Portfolio.findAll({
-      where: { userId: userId },
-      include: [{
-        model: PortfolioEntry,
-        as: 'symbols'
-      }],
-      // raw: true,
-      // nest: true
-      // nest: true,
-      // plain: true
-    });
-    const syms = await symbols_from_portfolios(portfolios)
-    console.log("\n\n all_symbols: ", syms, "\n\n");
-    // console.log("\n\nportfolios: ", portfolios, "\n\n")
-    let normalized = {};
-    let portValue = 0;
-    for (let port of portfolios) {
-      // const entries = await PortfolioEntry.findAll({
-      //   where: { portfolioId: port.id },
-      // });
-      if (port.symbols && port.symbols.length) {
-        const portList = [];
-        port.symbols.forEach((entry) => {
-          portList.push(entry.symbol);
-        });
-
-        // const raw = await axios.get(`https://api.tdameritrade.com/v1/marketdata/quotes?apikey=${process.env.API_KEY}&symbol=${syms.join("%2C")}`)
-
-        // const data = raw.data
-
-        // console.log("\n\n data: ", data, '\n\n' )
-        
-        port.symbols.forEach((entry, i) => {
-          port.symbols[i] = {...entry.dataValues, ...raw.data[entry.symbol]}
-          portValue += parseInt(raw.data[entry.symbol].mark) * parseInt(entry.amount)
-        })
-
-        normalized[port.id] = {
-          ...port.dataValues,
-          portData: port.symbols,
-          value: portValue,
-        };
-        continue;
-      } else {
-        normalized[port.id] = {
-          ...port,
-          portData: {},
-          value: portValue,
-        };
-      }
-    }
-    
-    return res.json(normalized);
-  })
-);
+router.get("/:userId", requireAuth, userPortfolios);
 
 //POST create portfolio
 router.post(

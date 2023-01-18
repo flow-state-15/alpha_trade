@@ -98,7 +98,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
         currentFunds: portfolio.currentFunds - findPrice(price, shares),
       };
       await dispatch(updatePortfolio(portUpdate));
-      await dispatch(loadPortfolios(user.id));
+      // await dispatch(loadPortfolios(user.id));
       setShares("");
       setPrice("");
       setError("");
@@ -122,7 +122,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
           parseInt(portfolio.currentFunds) + parseInt(findPrice(price, shares)),
       };
       await dispatch(updatePortfolio(portUpdate));
-      dispatch(loadPortfolios(user.id));
+      // dispatch(loadPortfolios(user.id));
       setShares("");
       setPrice("");
       setError("");

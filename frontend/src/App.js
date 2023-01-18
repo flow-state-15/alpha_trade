@@ -19,13 +19,13 @@ function App() {
   const user = useSelector((state) => state.session.user);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    if (user) {
-      (() => {
-        dispatch(loadPortfolios(user?.id)).then(() =>
-          dispatch(loadWatchlists(user?.id))
-        );
-      })();
-    }
+    // if (user) {
+      // (() => {
+      //   dispatch(loadPortfolios(user?.id)).then(() =>
+      //     dispatch(loadWatchlists(user?.id))
+      //   );
+      // })();
+    // }
   }, []);
 
   return (

@@ -32,7 +32,7 @@ export default function UserPage() {
         dispatch(loadWatchlists(user.id));
       })();
     }
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const selectOptions = Object.values(allWatchlists).map((wl) => {
     return (

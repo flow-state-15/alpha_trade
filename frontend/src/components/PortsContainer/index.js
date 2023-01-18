@@ -29,7 +29,7 @@ export default function PortsContainer({ user }) {
       setName("");
       setShowForm(false);
       await dispatch(addPortfolio(add));
-      await dispatch(loadPortfolios(user.id));
+      // await dispatch(loadPortfolios(user.id));
     }
   };
 

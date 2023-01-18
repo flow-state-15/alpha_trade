@@ -37,7 +37,7 @@ export const loadPortfolios = (userId) => async (dispatch) => {
         //   normalize[portfolios[i].id]["PortfolioEntries"] = included;
         // }
 
-        // console.log("\n\nIN pt LOAD THUNK, pt: ", portfolios, "\n\n")
+        console.log("portfolios: ", portfolios)
 
         dispatch(load(portfolios));
         return portfolios;

@@ -8,14 +8,14 @@ const load = (list) => ({
 });
 
 export const getStockData = (userId, portId) => async (dispatch) => {
-  // const response = await csrfFetch(
-  //   `/api/portfolios/portData/${userId}/${portId}`
-  // );
-  // if (response.ok) {
-  //   const data = await response.json();
-  //   dispatch(load(data));
-  //   return data;
-  // }
+  const response = await csrfFetch(
+    `/api/portfolios/portData/${userId}/${portId}`
+  );
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(load(data));
+    return data;
+  }
 };
 
 export const getOptionsChain = (formData) => async (dispatch) => {

@@ -51,10 +51,10 @@ function Navigation({ isLoaded }) {
     }
   };
 
-  useEffect(() => {
-    dispatch(loadPortfolios(user?.id));
-    dispatch(loadWatchlists(user?.id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadPortfolios(user?.id));
+  //   dispatch(loadWatchlists(user?.id));
+  // }, []);
 
   return (
     <>

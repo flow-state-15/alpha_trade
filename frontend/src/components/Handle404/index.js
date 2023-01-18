@@ -1,6 +1,8 @@
 import "./Handle404.css";
 import { Link } from "react-router-dom";
 
+
+
 export default function Handle404() {
   return (
     <div className="tag-handle-404">

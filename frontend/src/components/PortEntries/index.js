@@ -25,11 +25,11 @@ export default function PortEntries({ portId, user }) {
     currency: "USD",
   });
 
-  useEffect(() => {
-    (async () => {
-      await dispatch(loadPortfolios(user.id));
-    })();
-  }, [portId]);
+  // useEffect(() => {
+  //   (async () => {
+  //     await dispatch(loadPortfolios(user.id));
+  //   })();
+  // }, [portId]);
 
   const callStockInfo = async () => {
     dispatch(getStockData(user.id, portId));
@@ -55,7 +55,7 @@ export default function PortEntries({ portId, user }) {
 
   const handleDelete = async (e) => {
     await dispatch(removePortfolio(portId));
-    await dispatch(loadPortfolios(user.id));
+    // await dispatch(loadPortfolios(user.id));
   };
 
   const handleUpdate = async (e) => {
@@ -72,7 +72,7 @@ export default function PortEntries({ portId, user }) {
       setEditName("");
       setShowModal(false);
       await dispatch(updatePortfolio(update));
-      await dispatch(loadPortfolios(user.id));
+      // await dispatch(loadPortfolios(user.id));
     }
   };
 

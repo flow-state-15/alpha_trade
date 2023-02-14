@@ -5,107 +5,46 @@ const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { Watchlist, WatchlistEntry } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
+const { validate_symbol } = require("../../utils/td_api");
+
+const {
+	get_all_watchlists,
+	create_watchlist,
+	update_watchlist,
+	delete_watchlist,
+	delete_symbol_watchlist,
+	add_symbol_watchlist,
+} = require("../../controllers/watchlistController");
 
 const router = express.Router();
 
 //ROUTE HANDLING
 //GET all watchlists
-router.get(
-  "/:userId",
-  asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
-    const watchlists = await Watchlist.findAll({
-      where: { userId: userId },
-      include: [{ model: WatchlistEntry }]
-    });
-    return res.json({
-      watchlists,
-    });
-  })
-);
+router.get("/:userId", requireAuth, get_all_watchlists);
 
 //POST ONE watchlists
-router.post(
-  "/",
-  asyncHandler(async(req, res) => {
-    const wl = await Watchlist.create(req.body);
-    return res.json(wl);
-  })
-);
-
-
+router.post("/", requireAuth, create_watchlist);
 
 //UPDATE ONE watchlists
-router.put(
-  "/:id",
-  asyncHandler(async function (req, res) {
-    const id = req.params.id;
-    const wl = await Watchlist.findByPk(id);
-    await wl.update(req.body)
-    const findwl = await Watchlist.findOne({
-      where: { id: id },
-      include: [{ model: WatchlistEntry }]
-    });
-    return res.json(findwl);
-  })
-);
-
+router.put("/:id", requireAuth, update_watchlist);
 
 //DELETE ONE watchlists
-router.delete(
-  "/:id",
-  asyncHandler(async function (req, res) {
-    const id = req.params.id;
-    const wl = await Watchlist.findByPk(id);
-    if (!wl) throw new Error("Cannot find wl");
-    await Watchlist.destroy({where: {id: id}});
-    return res.json(wl);
-  })
-);
+router.delete("/:id", requireAuth, delete_watchlist);
 
 //DELETE symbol from watchlist
-router.delete(
-  "/deleteSymbol/:id/:entryId",
-  asyncHandler(async function (req, res) {
-    const { id, entryId } = req.params;
-    await WatchlistEntry.destroy({where: {id: entryId}});
-    const findwl = await Watchlist.findOne({
-      where: { id: id },
-      include: [{ model: WatchlistEntry }]
-    });
-    return res.json(findwl);
-  })
-);
+router.delete("/deleteSymbol/:id/:entryId", requireAuth, delete_symbol_watchlist);
 
 //ADD symbol to watchlist
-router.post(
-  "/addSymbol",
-  asyncHandler(async function (req, res) {
-    const form = req.body
-
-
-    await WatchlistEntry.create(form);
-
-    const findwl = await Watchlist.findOne({
-      where: { id: form.watchlistId },
-      include: [{ model: WatchlistEntry }]
-    });
-    return res.json(findwl);
-  })
-);
+router.post("/addSymbol", requireAuth, add_symbol_watchlist);
 
 //check for valid symbol
 router.post(
-  "/checkSymbol/",
-  asyncHandler(async function (req, res) {
-
-    const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/${req.body.ticker}/quotes?apikey=${process.env.API_KEY}`)
-
-    const data = await response.json()
-
-    return res.json(data);
-  })
+	"/checkSymbol/",
+	asyncHandler(async function (req, res) {
+		const data = await validate_symbol(req.body.ticker);
+		return res.json(data);
+	})
 );
 
 module.exports = router;

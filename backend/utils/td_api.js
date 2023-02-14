@@ -19,15 +19,22 @@ const symbols_from_portfolios = async (portfolios) => {
 	return raw.data;
 };
 
-const option_data = async (req, res) => {
+const option_data = async (sym) => {
 	const raw = await axios.get(
-		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${req.body.symbol}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL HTTP/1.1`
+		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${sym}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL`
 	);
 
-	return res.json(raw.data);
+	return raw.data;
 };
+
+const validate_symbol = async (sym) => {
+	const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/${sym}/quotes?apikey=${process.env.API_KEY}`)
+    const data = await response.json()
+	return data
+}
 
 module.exports = {
 	symbols_from_portfolios,
 	option_data,
+	validate_symbol
 };

@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const axios = require("axios");
 
 const { symbols_from_portfolios } = require("../utils/td_api");
 const { Portfolio, PortfolioEntry } = require("../db/models");
@@ -61,17 +60,17 @@ const update_portfolio = asyncHandler(async function (req, res) {
 	const id = req.params.id;
 	const port = await Portfolio.findByPk(id);
 	await port.update(req.body);
-	const updatedport = await Portfolio.findOne({
+	const updatedPort = await Portfolio.findOne({
 		where: { id: id },
 		include: [{ model: PortfolioEntry, as: "symbols" }],
 	});
-	return res.json(updatedport);
+	return res.json(updatedPort);
 });
 
 const delete_portfolio = asyncHandler(async function (req, res) {
 	const id = req.params.id;
 	const port = await Portfolio.findByPk(id);
-	if (!port) throw new Error("Cannot find portfolio to delete");
+	if (!port) return new Error("Cannot find portfolio to delete");
 	await Portfolio.destroy({ where: { id: id } });
 	return res.json(port);
 });

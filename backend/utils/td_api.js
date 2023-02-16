@@ -4,7 +4,7 @@ const symbols_from_portfolios = async (portfolios) => {
 	const all_symbols = portfolios.reduce((array, p) => {
 		array.push(
 			...p.symbols.reduce((acc, s) => {
-				acc.push(s.symbol);
+				acc.push(s.symbol.toUpperCase());
 				return acc;
 			}, [])
 		);
@@ -21,15 +21,15 @@ const symbols_from_portfolios = async (portfolios) => {
 
 const option_data = async (sym) => {
 	const raw = await axios.get(
-		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${sym}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL`
+		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${sym.toUpperCase()}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL`
 	);
 
 	return raw.data;
 };
 
 const validate_symbol = async (sym) => {
-	const response = await fetch(`https://api.tdameritrade.com/v1/marketdata/${sym}/quotes?apikey=${process.env.API_KEY}`)
-    const data = await response.json()
+	const response = await axios(`https://api.tdameritrade.com/v1/marketdata/${sym.toUpperCase()}/quotes?apikey=${process.env.API_KEY}`)
+    const data = response.data
 	return data
 }
 

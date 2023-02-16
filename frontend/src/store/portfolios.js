@@ -2,11 +2,13 @@ import { csrfFetch } from "./csrf";
 
 const LOAD = "portfolios/LOAD";
 const ADD = "portfolios/ADD";
+const UPDATE = "portfolios/UPDATE"
 const REMOVE = "portfolios/REMOVE";
+const RESET = "portfolios/RESETALL"
 
-const load = (list) => ({
+const load = (normalizedPorts) => ({
   type: LOAD,
-  list,
+  normalizedPorts,
 });
 
 const add = (portfolio) => ({
@@ -14,10 +16,19 @@ const add = (portfolio) => ({
   portfolio,
 });
 
+const update = (updatedData) => ({
+  type: UPDATE,
+  updatedData,
+});
+
 const remove = (portfolioId) => ({
   type: REMOVE,
   portfolioId,
 });
+
+export const resetPortfolios = () => ({
+    type: RESET
+})
 
 export const loadPortfolios = (userId) => async (dispatch) => {
   if (userId) {
@@ -73,8 +84,8 @@ export const updatePortfolio = (formData) => async (dispatch) => {
     });
 
     if (response.ok) {
-      const portfolio = await response.json();
-      // dispatch(add(portfolio));
+      const updatedPort = await response.json();
+      dispatch(update(updatedPort));
     }
   }
 };
@@ -119,13 +130,17 @@ const portfolioReducer = (state = {}, action) => {
       // for (let item of action.list) {
       //   newState[item.id] = item;
       // }
-      return action.list;
+      return action.normalizedPorts;
     case ADD:
       return { ...state, [action.portfolio.id]: action.portfolio };
+    case UPDATE:
+        return { ...state, [action.updatedData.id]: { ...state[action.updatedData], ...action.updatedData } }
     case REMOVE:
       const newPortfolios = { ...state };
       delete newPortfolios[action.portfolioId];
       return newPortfolios;
+    case RESET:
+        return {}
     default:
       return state;
   }

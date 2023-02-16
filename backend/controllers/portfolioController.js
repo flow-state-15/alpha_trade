@@ -7,7 +7,7 @@ const create_portfolio = asyncHandler(async (req, res) => {
 	const port = await Portfolio.create(req.body);
 	const found = await Portfolio.findOne({
 		where: { id: port.id },
-		include: [{ model: PortfolioEntry }],
+		include: [{ model: PortfolioEntry, as: "symbols" }],
 	});
 	return res.json(found);
 });
@@ -52,6 +52,10 @@ const userPortfolios = asyncHandler(async (req, res) => {
 			};
 		}
 	}
+
+    for(let prop in normalized){
+        normalized[prop] = normalized[prop].dataValues
+    }
 
 	return res.json(normalized);
 });

@@ -1,6 +1,7 @@
 const axios = require("axios");
+const asyncHandler = require("express-async-handler");
 
-const symbols_from_portfolios = async (portfolios) => {
+const symbols_from_portfolios = asyncHandler(async (portfolios) => {
 	const all_symbols = portfolios.reduce((array, p) => {
 		array.push(
 			...p.symbols.reduce((acc, s) => {
@@ -17,24 +18,38 @@ const symbols_from_portfolios = async (portfolios) => {
 
 	const raw = await axios.get(query_string);
 	return raw.data;
-};
+});
 
-const option_data = async (sym) => {
+const option_data = asyncHandler(async (sym) => {
 	const raw = await axios.get(
-		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${process.env.API_KEY}&symbol=${sym.toUpperCase()}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL`
+		`https://api.tdameritrade.com/v1/marketdata/chains?apikey=${
+			process.env.API_KEY
+		}&symbol=${sym.toUpperCase()}&contractType=ALL&strikeCount=30&includeQuotes=TRUE&strategy=SINGLE&range=ALL&optionType=ALL`
 	);
 
 	return raw.data;
-};
+});
 
-const validate_symbol = async (sym) => {
-	const response = await axios(`https://api.tdameritrade.com/v1/marketdata/${sym.toUpperCase()}/quotes?apikey=${process.env.API_KEY}`)
+const validate_symbol = asyncHandler(async (sym) => {
+	const response = await axios(
+		`https://api.tdameritrade.com/v1/marketdata/${sym.toUpperCase()}/quotes?apikey=${
+			process.env.API_KEY
+		}`
+	);
+	const data = response.data;
+	return data;
+});
+
+const request_stream = asyncHandler(async (symList) => {
+    const response = await axios()
     const data = response.data
-	return data
-}
+
+    return data
+})
 
 module.exports = {
 	symbols_from_portfolios,
 	option_data,
-	validate_symbol
+	validate_symbol,
+    request_stream
 };

@@ -95,16 +95,18 @@ export const removeWatchlist = (watchlistId) => async (dispatch) => {
 };
 
 export const addWatchlistSymbol = (form) => async (dispatch) => {
-  const response = await csrfFetch("/api/watchlists/addSymbol", {
-    method: "POST",
+    console.log("in addWatchlistSymbol thunk, form: ", form)
+    const response = await csrfFetch("/api/watchlists/addSymbol", {
+        method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
   });
-
+  
   if (response.ok) {
-    const watchlist = await response.json();
+      const watchlist = await response.json();
+      console.log("in addWatchlistSymbol thunk, watchlist: ", watchlist)
     dispatch(add(watchlist));
     return watchlist;
   }

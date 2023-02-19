@@ -176,6 +176,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
   });
 
   const addToWL = async (wlId) => {
+    console.log("addToWL, wlId: ", wlId)
     if (wlId) {
       let symbolName;
 
@@ -198,6 +199,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
 
         if (response.ok) {
           const data = await response.json();
+          console.log("in add symbol, is ticker ok: ", data, "\nerror: ", error)
           setToggleAdd(false);
           if (Object.keys(data).length == 0) {
             setError("Invalid symbol!");
@@ -205,7 +207,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
             const add = {
               watchlistId: wlId,
               symbol: ticker.toUpperCase(),
-              symbolName: data[ticker].description,
+              symbolName: data[ticker.toUpperCase()].description,
             };
             dispatch(addWatchlistSymbol(add));
             dispatch(loadWatchlists(user.id));
@@ -234,7 +236,7 @@ export default function TradeCard({ portfolios, watchlists, user }) {
           <label>ticker</label>
           <input
             required
-            onChange={(e) => setTicker(e.target.value)}
+            onChange={(e) => setTicker(e.target.value.toUpperCase())}
             value={ticker}
           />
           <button

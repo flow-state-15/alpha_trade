@@ -42,7 +42,7 @@ router.post("/addSymbol", requireAuth, add_symbol_watchlist);
 router.post(
 	"/checkSymbol/",
 	asyncHandler(async function (req, res) {
-		const data = validate_symbol(req.body.ticker);
+		const data = await validate_symbol(req.body.ticker);
 		return res.json(data);
 	})
 );

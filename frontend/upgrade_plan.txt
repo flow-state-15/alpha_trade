@@ -1,0 +1,11 @@
+1. fix all crud
+2. add generic modal system
+3. create content components for generic modal
+4. all crud confirmations assigned to modal content components
+5. custom price chart
+6. dark themed styles
+7. trade history components
+8. rabbitmq broker for streaming price api
+9. dockerize entire app
+10. docker swarm reading from rabbitmq for scalability
+11. private domain

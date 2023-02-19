@@ -1,0 +1,39 @@
+version: "3"
+services:
+    redis:
+        image: redis
+        networks:
+            - appnet
+        ports:
+            - "6379:6379"
+    db:
+        image: postgres
+        networks:
+            - appnet
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_DB: ${DB_DATABASE}
+    web:
+        build: .
+        ports:
+            - "8000:8000"
+        networks:
+            - appnet
+        env_file:
+            - .env
+        environment:
+            DB_HOST: db
+            REDIS_HOST: redis
+            DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_DATABASE}
+        depends_on:
+            - db
+            - redis
+        tty: true
+        stdin_open: true
+        # command: sh -c "./wait.sh db:5432 -- npx sequelize db:migrate && npx sequelize db:seed:all && npm start"
+        command: sh -c "./wait.sh db:5432 -- ./db.bash migrate"
+networks:
+    appnet:

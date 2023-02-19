@@ -14,3 +14,5 @@ elif [ $1 == 'reset' ]; then
 else
     echo "Unknown arg given. $1 is invalid."
 fi
+
+npm start

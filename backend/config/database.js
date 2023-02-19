@@ -17,6 +17,7 @@ module.exports = {
     logging: false,
   },
   production: {
+    //to use without docker compose:
     use_env_variable: "DATABASE_URL",
     dialect: "postgres",
     seederStorage: "sequelize",

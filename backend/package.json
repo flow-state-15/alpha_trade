@@ -8,12 +8,14 @@
     "sequelize-cli": "sequelize-cli",
     "start": "per-env",
     "start:development": "nodemon -r dotenv/config ./bin/www",
-    "start:production": "node ./bin/www"
+    "start:production": "node ./bin/www",
+    "db:setup": "npx sequelize db:migrate:undo && npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.3.3",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -29,8 +31,10 @@
     "node-fetch": "2.0",
     "per-env": "^1.0.2",
     "pg": "^8.7.1",
+    "redis": "^4.6.4",
     "sequelize": "^5.22.4",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "ws": "^8.12.1"
   },
   "devDependencies": {
     "dotenv-cli": "^4.0.0",

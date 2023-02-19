@@ -1,4 +1,4 @@
-const redis = require('redis')
+import redis from 'redis'
 
 const redis_client = redis.createClient({
     connection: {
@@ -13,7 +13,4 @@ redis_client.on('error', (err) => {
 
 console.log("\n\n REDIS CLIENT INITIALIZED \n\n")
 
-module.exports = {
-    redis,
-    redis_client
-}
+export default redis_client

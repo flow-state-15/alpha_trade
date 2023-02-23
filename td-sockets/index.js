@@ -1,6 +1,6 @@
-import express from 'express'
-import WebSocket from 'ws';
-import axios from 'axios'
+import express from "express";
+import WebSocket from "ws";
+import axios from "axios";
 
 // Utility
 function jsonToQueryString(json) {
@@ -14,14 +14,15 @@ function jsonToQueryString(json) {
 }
 
 const rawAuth = await axios(
-    "https://developer.tdameritrade.com/user-principal/apis/get/userprincipals?fields=streamerSubscriptionKeys%2CstreamerConnectionInfo", {
-        headers: {
-            authorization: process.env.API_KEY
-        }
-    }
+	"https://developer.tdameritrade.com/user-principal/apis/get/userprincipals?fields=streamerSubscriptionKeys%2CstreamerConnectionInfo",
+	{
+		headers: {
+			authorization: process.env.API_KEY,
+		},
+	}
 );
 
-const userPrincipalsResponse = rawAuth.data
+const userPrincipalsResponse = rawAuth.data;
 
 //Converts ISO-8601 response in snapshot to ms since epoch accepted by Streamer
 const tokenTimeStampAsDateObj = new Date(
@@ -60,20 +61,21 @@ const request = {
 	],
 };
 
-var tdSocket1 = new WebSocket(
-	"wss://" + userPrincipalsResponse.streamerInfo.streamerSocketUrl + "/ws", request
-);
+export const tdSocket1 = new WebSocket("wss://" + userPrincipalsResponse.streamerInfo.streamerSocketUrl + "/ws");
 
 tdSocket1.on("connection", (ws, req) => {
-    console.log("New WebSocket connection");
-
-	ws.on("message", (message) => {
-        console.log(`Received message: ${message}`);
-	});
-    
-	ws.send("Hello, client!");
+	console.log("New WebSocket connection: tdSocket1");
+	ws.send(request);
 });
 
+tdSocket1.on("message", (message) => {
+	console.log(`Received message: ${message}`);
+});
+
+tdSocket1.on("error", (err) => {
+    console.log(`ERROR: tdSocket1 - ${err}`)
+})
+
 tdSocket1.onclose = function () {
-    console.log("CLOSED");
+	console.log("tdSocket1 CLOSED");
 };
